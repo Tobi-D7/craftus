@@ -1,3 +1,6 @@
+My version of craftus redesigned adding some more commands and a basic survival mode
+Releases won't be happening for a while so you'll need devkitpro installed to compile this (and ofc, a hacked system that can load homebrew, citra also seems to work well)
+
 Craftus Redisigned is a modified version of Craftus Reloaded : https://github.com/RSDuck/craftus_reloaded.
 
 After launching it for the first time, you can change the controls in `sd:/craftus_redesigned/options.ini`.
@@ -40,22 +43,3 @@ You can also change the settings in `sd:/craftus_redesigned/options.ini`.
 * Tommaso Checchi, for his [culling algorithm](https://tomcc.github.io/2014/08/31/visibility-1.html), orginally developed for the use in MC PE
 * Of course all other MC devs, how could I forget them?
 * All people who worked on the libraries Craftus is depending on(see the dependencies folder)
-
-# Todo
--*Replace Smea generation with old Craftus generation*
-
--*Add entities such as grass, flowers and a torch*
-
--*Add lighting*
-
--*Add sound effects*
-
--*Add background music*
-
--*Make doors actualy work*
-
--*Make semi-transparent blocks possible*
-
--*Make sky better*
-
--*Add inventory slider*
