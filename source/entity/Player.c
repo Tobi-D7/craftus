@@ -1,14 +1,13 @@
 #include <entity/Player.h>
 #include <misc/Collision.h>
 
-
 void Player_Init(Player* player, World* world) {
-
 	player->position = f3_new(0.f, 0.f, 0.f);
 
 	player->bobbing = 0.f;
 	player->pitch = 0.f;
 	player->yaw = 0.f;
+	player->hp=20;
 
 	player->grounded = false;
 	player->sprinting = false;
@@ -22,7 +21,7 @@ void Player_Init(Player* player, World* world) {
 	player->crouching = false;
 	player->flying = false;
 
-	player->blockInSeight = false;
+	player->blockInSight = false;
 	player->blockInActionRange = false;
 
 	player->velocity = f3_new(0, 0, 0);
@@ -68,11 +67,31 @@ void Player_Init(Player* player, World* world) {
 
 void Player_Update(Player* player) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
-
-	player->blockInSeight =
-	    Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,
-			 &player->viewRayCast);
-	player->blockInActionRange = player->blockInSeight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
+	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
+	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
+	if (player->jumped==true&&player->velocity.y<0&&player->blocksfallen<=4){
+		int currenty=player->position.y;
+		player->blocksfallen+=currenty+4;
+	} else {
+		player->blocksfallen=0;
+	}
+	if (player->blocksfallen<20){
+		player->hp=0;
+	}
+	if (player->hp==0/*&&gamemode==0*/){
+		if(player->spawnx!=0&&player->spawny!=0) {
+			player->position.x=player->spawnx;
+			player->position.y=player->spawny;
+			player->position.z=player->spawnz;
+			player->hp=20;
+		} else {
+			DebugUI_Log("No spawn set");
+			player->position.x=0;
+			player->position.y=17;
+			player->position.z=0;
+			player->hp=20;
+		}
+	}	
 }
 
 bool Player_CanMove(Player* player, float newX, float newY, float newZ) {

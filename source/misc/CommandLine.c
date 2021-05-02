@@ -28,7 +28,7 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 				player->position.x = x;
 				player->position.y = y + 1;
 				player->position.z = z;
-				DebugUI_Log("teleported to %f, %f %f", x, y, z);
+				DebugUI_Log("Teleported to %f, %f %f", x, y, z);
 				return;
 			}
 		}
@@ -36,5 +36,27 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			extern bool showDebugInfo;
 			showDebugInfo ^= true;
 		}
+		if (length == 2 && text[1] == 'k') {
+			player->hp=0;
+			DebugUI_Log("Killed player");
+		}
+		float hp;
+		if ( sscanf(&text[1],"hp %f",&hp)) {
+			player->hp=hp;
+			DebugUI_Log("Set player hp to %f", hp);
+		}
+		float x, y, z;
+		if (sscanf(&text[1], "ws %f %f %f", &x, &y, &z) == 3) {
+			player->spawnx = x;
+			player->spawny = y + 0.1;
+			player->spawnz = z;
+			DebugUI_Log("Set spawn to %f, %f %f", x, y, z);
+			return;
+		}
+		/*int gm;
+		if ( sscanf(&text[1],"gm %f",&gm)) {
+			player->gamemode=gm;
+			DebugUI_Log("Set gamemode to %f", gm);
+		}*/
 	}
 }

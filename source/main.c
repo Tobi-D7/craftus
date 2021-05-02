@@ -21,7 +21,6 @@
 #include <world/worldgen/SuperFlatGen.h>
 
 #include <sino/sino.h>
-
 #include <citro3d.h>
 
 bool showDebugInfo = false;  // muss noch besser gemacht werden, vlt. über eine Options Struktur wo auch andere Einstellungen drinne sind
@@ -91,6 +90,8 @@ int main() {
 		DebugUI_Text("%d FPS  Usage: CPU: %5.2f%% GPU: %5.2f%% Buf: %5.2f%% Lin: %d", fps, C3D_GetProcessingTime() * 6.f,
 			     C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
 		DebugUI_Text("Player: %f, %f, %f P: %f Y: %f", f3_unpack(player.position), player.pitch, player.yaw);
+		//DebugUI_Text("HP: %f Y Veloc: %f",player.hp,player.velocity.y);
+		DebugUI_Text("Spawn X: %f, Y: %f, Z: %f",player.spawnx,player.spawny,player.spawnz);
 
 		Renderer_Render();
 

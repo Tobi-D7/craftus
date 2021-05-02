@@ -110,7 +110,11 @@ static bool canceled_deletion = false;
 
 static WorldGenType worldGenType = WorldGen_SuperFlat;
 
+//static gamemodes gamemode = gamemode_survival;
+
 static char* worldGenTypesStr[] = {"Smea", "Superflat"};
+
+//static char* gamemodes[] = {"Survival", "Creative"};
 
 static MenuState menustate = MenuState_SelectWorld;
 
@@ -188,6 +192,15 @@ void WorldSelect_Render() {
 			if (worldGenType == WorldGenTypes_Count) worldGenType = 0;
 		}
 		Gui_EndRow();
+
+		/*Gui_BeginRowCenter(Gui_RelativeWidth(0.9f), 3);
+		Gui_Label(0.45f, true, INT16_MAX, false, "Gamemode");
+		Gui_Space(0.1f);
+		if (Gui_Button(0.45f, "%s", gamemodes[worldGenType])) {
+			worldGenType++;
+			if (worldGenType == WorldGenTypes_Count) worldGenType = 0;
+		}
+		Gui_EndRow();*/
 
 		Gui_VerticalSpace(Gui_RelativeHeight(0.4f));
 

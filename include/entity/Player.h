@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include <stdbool.h>
-
 #include <world/World.h>
 
 #include <gui/Inventory.h>
@@ -34,6 +33,13 @@ typedef struct {
 
 	float breakPlaceTimeout;
 
+	float hp;
+	int blocksfallen;
+
+	float spawnx;
+	float spawny;
+	float spawnz;
+
 	ItemStack inventory[24 + 16];
 
 	int quickSelectBarSlots;
@@ -41,7 +47,7 @@ typedef struct {
 	ItemStack quickSelectBar[INVENTORY_QUICKSELECT_MAXSLOTS];  // TODO: wenn die Fenstergröße verändert wird irgendwas tuen
 
 	Raycast_Result viewRayCast;
-	bool blockInSeight, blockInActionRange;
+	bool blockInSight, blockInActionRange;
 } Player;
 
 void Player_Init(Player* player, World* world);

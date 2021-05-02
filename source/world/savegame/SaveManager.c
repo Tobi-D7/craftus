@@ -51,10 +51,14 @@ void SaveManager_Load(SaveManager* mgr, char* path) {
 			mgr->world->genSettings.type = WorldGen_SuperFlat;
 
 		mpack_node_t player = mpack_node_array_at(mpack_node_map_cstr(root, "players"), 0);
+		mgr->player->spawnx=mpack_node_float(mpack_node_map_cstr(player,"sx"));
+		mgr->player->spawny=mpack_node_float(mpack_node_map_cstr(player,"sy"));
+		mgr->player->spawnz=mpack_node_float(mpack_node_map_cstr(player,"sz"));
 
 		mgr->player->position.x = mpack_node_float(mpack_node_map_cstr(player, "x"));
 		mgr->player->position.y = mpack_node_float(mpack_node_map_cstr(player, "y")) + 0.1f;
 		mgr->player->position.z = mpack_node_float(mpack_node_map_cstr(player, "z"));
+
 
 		mgr->player->pitch = mpack_node_float(mpack_node_map_cstr(player, "pitch"));
 		mgr->player->yaw = mpack_node_float(mpack_node_map_cstr(player, "yaw"));
@@ -87,6 +91,13 @@ void SaveManager_Unload(SaveManager* mgr) {
 	mpack_write_float(&writer, mgr->player->position.y);
 	mpack_write_cstr(&writer, "z");
 	mpack_write_float(&writer, mgr->player->position.z);
+
+	mpack_write_cstr(&writer, "sx");
+	mpack_write_float(&writer,mgr->player->spawnx);
+	mpack_write_cstr(&writer, "sy");
+	mpack_write_float(&writer,mgr->player->spawny);
+	mpack_write_cstr(&writer, "sz");
+	mpack_write_float(&writer,mgr->player->spawnz);
 
 	mpack_write_cstr(&writer, "pitch");
 	mpack_write_float(&writer, mgr->player->pitch);
