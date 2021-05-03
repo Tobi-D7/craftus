@@ -69,16 +69,10 @@ void Player_Update(Player* player) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
-	if (player->jumped==true&&player->velocity.y<0&&player->blocksfallen<=4){
-		int currenty=player->position.y;
-		player->blocksfallen+=currenty+4;
-	} else {
-		player->blocksfallen=0;
-	}
-	if (player->blocksfallen<20){
+	if (player->velocity.y>=18){
 		player->hp=0;
 	}
-	if (player->hp==0/*&&gamemode==0*/){
+	if (player->hp==0&&player->gamemode==0){
 		if(player->spawnx!=0&&player->spawny!=0) {
 			player->position.x=player->spawnx;
 			player->position.y=player->spawny;
@@ -91,7 +85,8 @@ void Player_Update(Player* player) {
 			player->position.z=0;
 			player->hp=20;
 		}
-	}	
+	}
+
 }
 
 bool Player_CanMove(Player* player, float newX, float newY, float newZ) {
@@ -252,13 +247,4 @@ void Player_BreakBlock(Player* player) {
 		World_SetBlock(player->world, player->viewRayCast.x, player->viewRayCast.y, player->viewRayCast.z, Block_Air);
 	}
 	if (player->breakPlaceTimeout < 0.f) player->breakPlaceTimeout = PLAYER_PLACE_REPLACE_TIMEOUT;
-}
-
-void Player_Teleport(Player* player, float x, float y, float z) {
-	player->position.x = x;
-	player->position.y = y;
-	player->position.z = z;
-
-	player->velocity = f3_new(0, 0, 0);
-	Player_Update(player);
 }

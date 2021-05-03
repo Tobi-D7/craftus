@@ -34,11 +34,13 @@ typedef struct {
 	float breakPlaceTimeout;
 
 	float hp;
-	int blocksfallen;
 
 	float spawnx;
 	float spawny;
 	float spawnz;
+
+	int gamemode;
+	bool cheats;
 
 	ItemStack inventory[24 + 16];
 
@@ -60,5 +62,3 @@ void Player_PlaceBlock(Player* player);
 void Player_BreakBlock(Player* player);
 
 void Player_Jump(Player* player, float3 accl);
-
-void Player_Teleport(Player* player, float x, float y, float z);

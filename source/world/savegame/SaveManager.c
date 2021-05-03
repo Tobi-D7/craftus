@@ -59,12 +59,14 @@ void SaveManager_Load(SaveManager* mgr, char* path) {
 		mgr->player->position.y = mpack_node_float(mpack_node_map_cstr(player, "y")) + 0.1f;
 		mgr->player->position.z = mpack_node_float(mpack_node_map_cstr(player, "z"));
 
-
+		mgr->player->gamemode=mpack_node_int(mpack_node_map_cstr(player,"gamemode"));
+		
 		mgr->player->pitch = mpack_node_float(mpack_node_map_cstr(player, "pitch"));
 		mgr->player->yaw = mpack_node_float(mpack_node_map_cstr(player, "yaw"));
 
 		mgr->player->flying = mpack_elvis(player, "flying", bool, false);
 		mgr->player->crouching = mpack_elvis(player, "crouching", bool, false);
+		mgr->player->cheats = mpack_elvis(player, "cheats", bool, true);
 
 		mpack_error_t err = mpack_tree_destroy(&levelTree);
 		if (err != mpack_ok) {
@@ -91,6 +93,11 @@ void SaveManager_Unload(SaveManager* mgr) {
 	mpack_write_float(&writer, mgr->player->position.y);
 	mpack_write_cstr(&writer, "z");
 	mpack_write_float(&writer, mgr->player->position.z);
+
+	mpack_write_cstr(&writer, "gamemode");
+	mpack_write_int(&writer,mgr->player->gamemode);
+	mpack_write_cstr(&writer, "cheats");
+	mpack_write_bool(&writer,mgr->player->cheats);
 
 	mpack_write_cstr(&writer, "sx");
 	mpack_write_float(&writer,mgr->player->spawnx);

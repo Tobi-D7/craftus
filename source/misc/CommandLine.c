@@ -21,7 +21,11 @@ void CommandLine_Activate(World* world, Player* player) {
 
 void CommandLine_Execute(World* world, Player* player, const char* text) {
 	int length = strlen(text);
-	if (length >= 1 && text[0] == '/') {
+	if (length == 3 && text[0] == 'dbg') {
+		extern bool showDebugInfo;
+		showDebugInfo ^= true;
+	}
+	if (length >= 1 && text[0] == '/'&&player->cheats==true) {
 		if (length >= 9) {
 			float x, y, z;
 			if (sscanf(&text[1], "tp %f %f %f", &x, &y, &z) == 3) {
@@ -31,10 +35,6 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 				DebugUI_Log("Teleported to %f, %f %f", x, y, z);
 				return;
 			}
-		}
-		if (length == 2 && text[1] == 'd') {
-			extern bool showDebugInfo;
-			showDebugInfo ^= true;
 		}
 		if (length == 2 && text[1] == 'k') {
 			player->hp=0;
@@ -53,10 +53,10 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			DebugUI_Log("Set spawn to %f, %f %f", x, y, z);
 			return;
 		}
-		/*int gm;
-		if ( sscanf(&text[1],"gm %f",&gm)) {
+		int gm;
+		if ( sscanf(&text[1],"gm %i",&gm)) {
 			player->gamemode=gm;
-			DebugUI_Log("Set gamemode to %f", gm);
-		}*/
+			DebugUI_Log("Set gamemode to %i", gm);
+		}
 	}
 }
