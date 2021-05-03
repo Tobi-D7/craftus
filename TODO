@@ -1,0 +1,25 @@
+test fall damage
+
+make world spawn better so it works on noise generated worlds (currently just sets you to 0,17,0 on death)
+
+add gui stuff for gamerules
+
+add difficulty
+
+multiplayer (either local, use a external server or p2p)
+
+custom skins
+
+mobs
+
+sound and music
+
+fire
+
+sort textures into a more minecraft way (resource and data packs?)
+
+lighting
+
+make doors actually work
+
+any help would be appreciated here
