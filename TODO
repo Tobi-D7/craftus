@@ -1,10 +1,8 @@
-test fall damage
-
 make world spawn better so it works on noise generated worlds (currently just sets you to 0,17,0 on death)
 
 add gui stuff for gamerules
 
-add difficulty
+difficulty
 
 multiplayer (either local, use a external server or p2p)
 
@@ -21,5 +19,19 @@ sort textures into a more minecraft way (resource and data packs?)
 lighting
 
 make doors actually work
+
+hunger
+
+hud stuff for hp
+
+day night cycle
+
+weather
+
+stats like how many kills, time survived and player deaths
+
+tnt
+
+dimensions
 
 any help would be appreciated here

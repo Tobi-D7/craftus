@@ -21,10 +21,6 @@ void CommandLine_Activate(World* world, Player* player) {
 
 void CommandLine_Execute(World* world, Player* player, const char* text) {
 	int length = strlen(text);
-	if (length == 3 && text[0] == 'dbg') {
-		extern bool showDebugInfo;
-		showDebugInfo ^= true;
-	}
 	if (length >= 1 && text[0] == '/'&&player->cheats==true) {
 		if (length >= 9) {
 			float x, y, z;

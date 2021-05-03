@@ -24,6 +24,8 @@ void Player_Init(Player* player, World* world) {
 	player->blockInSight = false;
 	player->blockInActionRange = false;
 
+	player->gamemode=0;
+
 	player->velocity = f3_new(0, 0, 0);
 	player->simStepAccum = 0.f;
 
@@ -61,7 +63,8 @@ void Player_Init(Player* player, World* world) {
 
 		for (int i = 0; i < INVENTORY_QUICKSELECT_MAXSLOTS; i++) player->quickSelectBar[i] = (ItemStack){Block_Air, 0, 0};
 	}
-
+	extern bool showDebugInfo;
+	showDebugInfo ^= true;
 	player->autoJumpEnabled = true;
 }
 
@@ -69,21 +72,24 @@ void Player_Update(Player* player) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
-	if (player->velocity.y>=18){
+	if (player->velocity.y<=-26.0){
 		player->hp=0;
 	}
-	if (player->hp==0&&player->gamemode==0){
-		if(player->spawnx!=0&&player->spawny!=0) {
-			player->position.x=player->spawnx;
-			player->position.y=player->spawny;
-			player->position.z=player->spawnz;
-			player->hp=20;
-		} else {
-			DebugUI_Log("No spawn set");
-			player->position.x=0;
-			player->position.y=17;
-			player->position.z=0;
-			player->hp=20;
+	if (player->gamemode==0){
+		if (player->hp==0){
+			if(player->spawnx!=0&&player->spawny!=0) {
+				player->position.x=player->spawnx;
+				player->position.y=player->spawny;
+				player->position.z=player->spawnz;
+				DebugUI_Log("Lol u died");
+				player->hp=20;
+			} else {
+				DebugUI_Log("No spawn set");
+				player->position.x=0;
+				player->position.y=17;
+				player->position.z=0;
+				player->hp=20;
+			}
 		}
 	}
 
