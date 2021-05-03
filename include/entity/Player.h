@@ -34,6 +34,10 @@ typedef struct {
 	float breakPlaceTimeout;
 
 	int hp;
+	int armour;
+	int oxygen;
+	int hunger;
+	bool dead;
 
 	float spawnx;
 	float spawny;

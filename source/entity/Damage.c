@@ -7,10 +7,20 @@ void FallDamage(Player* player){
 	}
 }
 
-void PlayerDeath(Player* player){
-	if (player->gamemode==0||player->gamemode==2){
-		if (player->hp==0){
-			RespawnMenu();
-		}
+void Respawn(Player* player){
+    if(player->spawnx!=0&&player->spawnz!=0) {
+		DebugUI_Log("Lol u ded");
+		player->position.x=player->spawnx;
+		player->position.y=player->spawny;
+		player->position.z=player->spawnz;
+		player->dead=false;
+		player->hp=20;
+	} else {
+		DebugUI_Log("No spawn, lol u ded");
+		player->position.x=0;
+		player->position.y=17;
+		player->position.z=0;
+		player->dead=false;
+		player->hp=20;
 	}
 }

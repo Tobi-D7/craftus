@@ -12,4 +12,4 @@ typedef struct {
 } Damage;
 
 void FallDamage();
-void PlayerDeath();
+void Respawn();

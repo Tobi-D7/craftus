@@ -8,3 +8,7 @@ lib/
 *.t3x
 *.bcfnt
 *~
+*.cia
+*.bnr
+*.cfa
+*.cxi

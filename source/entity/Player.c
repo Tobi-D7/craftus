@@ -8,7 +8,9 @@ void Player_Init(Player* player, World* world) {
 	player->bobbing = 0.f;
 	player->pitch = 0.f;
 	player->yaw = 0.f;
+
 	player->hp=20;
+	player->dead=false;
 
 	player->grounded = false;
 	player->sprinting = false;
@@ -75,8 +77,11 @@ void Player_Update(Player* player,Damage* dmg) {
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
 	
-	if (player->hp>=0){
-		RespawnUI();
+	if (player->hp<=0){
+		player->dead=true;
+	}
+	if (player->hp<=0&&player->gamemode!=1&&player->dead==true){
+		Respawn();
 	}
 }
 
