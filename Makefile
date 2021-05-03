@@ -36,6 +36,7 @@ ROMFS		:=	romfs
 APP_AUTHOR	:= RSDuck & Silentstorm
 APP_TITLE	:= Craftus Reloaded
 APP_DESCRIPTION := A Minecraft clone for 3DS
+BANNER_AUDIO := romfs/theme.wav
 ICON		:=	icon/craftusreloaded.png
 
 DEBUG		?=	0

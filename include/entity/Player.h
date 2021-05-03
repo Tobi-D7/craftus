@@ -5,7 +5,7 @@
 
 #include <gui/Inventory.h>
 #include <inventory/ItemStack.h>
-
+#include <entity/Damage.h>
 
 #include <misc/Raycast.h>
 #include <misc/VecMath.h>
@@ -33,7 +33,7 @@ typedef struct {
 
 	float breakPlaceTimeout;
 
-	float hp;
+	int hp;
 
 	float spawnx;
 	float spawny;
@@ -46,7 +46,7 @@ typedef struct {
 
 	int quickSelectBarSlots;
 	int quickSelectBarSlot;
-	ItemStack quickSelectBar[INVENTORY_QUICKSELECT_MAXSLOTS];  // TODO: wenn die Fenstergröße verändert wird irgendwas tuen
+	ItemStack quickSelectBar[INVENTORY_QUICKSELECT_MAXSLOTS];
 
 	Raycast_Result viewRayCast;
 	bool blockInSight, blockInActionRange;
@@ -54,7 +54,7 @@ typedef struct {
 
 void Player_Init(Player* player, World* world);
 
-void Player_Update(Player* player);
+void Player_Update(Player* player,Damage* dmg);
 
 void Player_Move(Player* player, float dt, float3 accl);
 

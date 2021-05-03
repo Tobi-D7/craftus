@@ -3,7 +3,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-// side effects!!!
 #ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif

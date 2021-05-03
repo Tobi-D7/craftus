@@ -63,7 +63,7 @@ void SaveManager_Load(SaveManager* mgr, char* path) {
 		
 		mgr->player->pitch = mpack_node_float(mpack_node_map_cstr(player, "pitch"));
 		mgr->player->yaw = mpack_node_float(mpack_node_map_cstr(player, "yaw"));
-
+		mgr->player->hp=mpack_node_int(mpack_node_map_cstr(player,"hp"));
 		mgr->player->flying = mpack_elvis(player, "flying", bool, false);
 		mgr->player->crouching = mpack_elvis(player, "crouching", bool, false);
 		mgr->player->cheats = mpack_elvis(player, "cheats", bool, true);

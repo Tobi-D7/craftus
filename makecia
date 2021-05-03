@@ -1,0 +1,2 @@
+makerom -o craftus.cfa -rsf craftus_redesigned.rsf -target t
+makerom -f cia -o craftus.cia -target t -i craftus.cxi:0:0 -i craftus.cfa:1:1
