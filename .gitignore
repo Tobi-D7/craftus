@@ -8,7 +8,7 @@ lib/
 *.t3x
 *.bcfnt
 *~
-craftus.cia
+*.cia
 *.bnr
 *.cfa
 *.cxi
