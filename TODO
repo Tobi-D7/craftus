@@ -1,5 +1,3 @@
-make spawn work when one of the axis is set to 0 (null check isn't working)
-
 make fall damage use a actual formula instead of just checking for velocity
 
 add gui stuff for gamerules

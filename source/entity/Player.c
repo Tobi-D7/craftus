@@ -78,7 +78,7 @@ void Player_Update(Player* player,World* world) {
 	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==true*/){
 		/*if (difficulty!=3*) { 
 			lol, git gud, ur world is gone*/
-		if(player->spawnx!=0&&player->spawny!=0&&player->spawnz!=0) {
+		if(player->spawnx!=NAN&&player->spawny!=NAN&&player->spawnz!=NAN) {
 			DebugUI_Log("Lol u ded");
 			player->position.x=player->spawnx;
 			player->position.y=player->spawny+0.6;

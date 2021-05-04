@@ -56,7 +56,10 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			mpack_write_cstr(&writer, "sz");
 			mpack_write_float(&writer,player->spawnz);
 			DebugUI_Log("Set spawn to %f, %f %f", x, y, z);
-			if (err != mpack_ok) DebugUI_Log("Mpack error %d while saving world manifest", err);
+			if (err != mpack_ok) {
+				DebugUI_Log("Mpack error %d while saving world manifest", err);
+				DebugUI_Log("Save file possibly corrupted, don't hit me plz");
+			}
 		}
 		int gm;
 		if ( sscanf(&text[1],"gm %i",&gm)) {
