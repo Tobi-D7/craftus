@@ -27,6 +27,8 @@ typedef struct {
 
 #define WORLD_NAME_SIZE 12
 typedef struct {
+	int HighestBlock;
+
 	char name[WORLD_NAME_SIZE];
 
 	GeneratorSettings genSettings;

@@ -38,6 +38,7 @@ void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) 
 }
 
 int main() {
+	int highestblock = 0;
 	GameState gamestate = GameState_SelectWorld;
 
 	gfxInitDefault();
@@ -89,9 +90,9 @@ int main() {
 	while (aptMainLoop()) {
 		DebugUI_Text("%d FPS  Usage: CPU: %5.2f%% GPU: %5.2f%% Buf: %5.2f%% Lin: %d", fps, C3D_GetProcessingTime() * 6.f,
 			     C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
-		DebugUI_Text("Player: %f, %f, %f P: %f Y: %f", f3_unpack(player.position), player.pitch, player.yaw);
-		//DebugUI_Text("HP: %i",player.hp);
-		DebugUI_Text("SX: %f SY: %f SZ: %f",player.spawn.x,player.spawn.y,player.spawn.z);
+		DebugUI_Text("Player: %f, %f, %f P: %f Y: %f highestblock: %i", f3_unpack(player.position), player.pitch, player.yaw,highestblock);
+		DebugUI_Text("HP: %i",player.hp);
+		DebugUI_Text("SX: %f SY: %f SZ: %f",player.spawnx,player.spawny,player.spawnz);
 
 		Renderer_Render();
 
@@ -181,16 +182,16 @@ int main() {
 				}
 
 				if (newWorld) {
-					int highestBlock = 0;
+					int highestblock = 0;
 					for (int x = -1; x < 1; x++) {
 						for (int z = -1; z < 1; z++) {
 							int height = World_GetHeight(world, x, z);
-							if (height > highestBlock) highestBlock = height;
+							if (height > highestblock) highestblock = height;
 						}
 					}
-					player.position.y = (float)highestBlock + 0.2f;
+					player.position.y = (float)highestblock + 0.2f;
+					player.spawny2 = (float)highestblock + 0.2f;
 				}
-
 				gamestate = GameState_Playing;
 				lastTime = svcGetSystemTick();  // fix timing
 			}

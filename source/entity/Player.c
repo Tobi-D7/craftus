@@ -71,22 +71,23 @@ void Player_Init(Player* player, World* world) {
 	player->autoJumpEnabled = true;
 }
 
-void Player_Update(Player* player,Damage* dmg) {
+void Player_Update(Player* player,World* world) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
-	
 	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==true*/){
-		if(player->spawn.x!=0&&player->spawn.y!=0&&player->spawn.z!=0) {
+		/*if (difficulty!=3*) { 
+			lol, git gud, ur world is gone*/
+		if(player->spawnx!=0&&player->spawny!=0&&player->spawnz!=0) {
 			DebugUI_Log("Lol u ded");
-			player->position.z=player->spawn.x;
-			player->position.z=player->spawn.y;
-			player->position.z=player->spawn.z;
+			player->position.z=player->spawnx;
+			player->position.z=player->spawny;
+			player->position.z=player->spawnz;
 			player->hp=20;
 		} else {
 			DebugUI_Log("No spawn, lol u ded");
 			player->position.x=0.0;
-			player->position.y=17.0;
+			player->position.y=player->spawny2;
 			player->position.z=0.0;
 			player->hp=20;
 		}

@@ -46,15 +46,15 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 		}
 		float x,y,z;
 		if (sscanf(&text[1], "ws %f %f %f", &x, &y, &z) == 3) {
-			player->spawn.x = x;
-			player->spawn.y = y;
-			player->spawn.z = z;
+			player->spawnx = x;
+			player->spawny = y;
+			player->spawnz = z;
 			mpack_write_cstr(&writer, "sx");
-			mpack_write_float(&writer,player->spawn.x);
+			mpack_write_float(&writer,player->spawnx);
 			mpack_write_cstr(&writer, "sy");
-			mpack_write_float(&writer,player->spawn.y);
+			mpack_write_float(&writer,player->spawny);
 			mpack_write_cstr(&writer, "sz");
-			mpack_write_float(&writer,player->spawn.z);
+			mpack_write_float(&writer,player->spawnz);
 			DebugUI_Log("Set spawn to %f, %f %f", x, y, z);
 			if (err != mpack_ok) {
 				Crash("Mpack error %d while saving world manifest", err);
