@@ -80,8 +80,8 @@ void Player_Update(Player* player,World* world) {
 			lol, git gud, ur world is gone*/
 		if(player->spawnx!=0&&player->spawny!=0&&player->spawnz!=0) {
 			DebugUI_Log("Lol u ded");
-			player->position.z=player->spawnx;
-			player->position.z=player->spawny;
+			player->position.x=player->spawnx;
+			player->position.y=player->spawny+0.6;
 			player->position.z=player->spawnz;
 			player->hp=20;
 		} else {

@@ -1,2 +1,3 @@
-makerom -o craftus.cfa -rsf craftus_redesigned.rsf -target t
+makerom -o craftus.cxi -rsf craftus.rsf -target t -elf Craftus-Redesigned.elf -icon icon/craftus.png -banner banner.bin -desc app:4
+makerom -o craftus.cfa -rsf craftus.rsf -target t
 makerom -f cia -o craftus.cia -target t -i craftus.cxi:0:0 -i craftus.cfa:1:1
