@@ -10,7 +10,6 @@ void Player_Init(Player* player, World* world) {
 	player->yaw = 0.f;
 
 	player->hp=20;
-	player->dead=false;
 
 	player->grounded = false;
 	player->sprinting = false;
@@ -77,11 +76,20 @@ void Player_Update(Player* player,Damage* dmg) {
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
 	
-	if (player->hp<=0){
-		player->dead=true;
-	}
-	if (player->hp<=0&&player->gamemode!=1&&player->dead==true){
-		Respawn();
+	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==true*/){
+		if(player->spawn.x!=0&&player->spawn.y!=0&&player->spawn.z!=0) {
+			DebugUI_Log("Lol u ded");
+			player->position.z=player->spawn.x;
+			player->position.z=player->spawn.y;
+			player->position.z=player->spawn.z;
+			player->hp=20;
+		} else {
+			DebugUI_Log("No spawn, lol u ded");
+			player->position.x=0.0;
+			player->position.y=17.0;
+			player->position.z=0.0;
+			player->hp=20;
+		}
 	}
 }
 

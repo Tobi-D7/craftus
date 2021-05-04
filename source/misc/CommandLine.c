@@ -1,8 +1,10 @@
 #include <misc/CommandLine.h>
+#include <world/savegame/SaveManager.h>
 
 #include <3ds.h>
 
 #include <gui/DebugUI.h>
+#include <mpack/mpack.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -21,6 +23,8 @@ void CommandLine_Activate(World* world, Player* player) {
 
 void CommandLine_Execute(World* world, Player* player, const char* text) {
 	int length = strlen(text);
+	mpack_writer_t writer;
+	mpack_error_t err = mpack_writer_destroy(&writer);
 	if (length >= 1 && text[0] == '/'&&player->cheats==true) {
 		if (length >= 9) {
 			float x, y, z;
@@ -29,7 +33,6 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 				player->position.y = y + 1;
 				player->position.z = z;
 				DebugUI_Log("Teleported to %f, %f %f", x, y, z);
-				return;
 			}
 		}
 		if (length == 2 && text[1] == 'k') {
@@ -41,13 +44,21 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			player->hp=hp;
 			DebugUI_Log("Set player hp to %f", hp);
 		}
-		float x, y, z;
+		float x,y,z;
 		if (sscanf(&text[1], "ws %f %f %f", &x, &y, &z) == 3) {
-			player->spawnx = x;
-			player->spawny = y + 0.1;
-			player->spawnz = z;
+			player->spawn.x = x;
+			player->spawn.y = y;
+			player->spawn.z = z;
+			mpack_write_cstr(&writer, "sx");
+			mpack_write_float(&writer,player->spawn.x);
+			mpack_write_cstr(&writer, "sy");
+			mpack_write_float(&writer,player->spawn.y);
+			mpack_write_cstr(&writer, "sz");
+			mpack_write_float(&writer,player->spawn.z);
 			DebugUI_Log("Set spawn to %f, %f %f", x, y, z);
-			return;
+			if (err != mpack_ok) {
+				Crash("Mpack error %d while saving world manifest", err);
+	}
 		}
 		int gm;
 		if ( sscanf(&text[1],"gm %i",&gm)) {

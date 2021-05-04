@@ -37,11 +37,8 @@ typedef struct {
 	int armour;
 	int oxygen;
 	int hunger;
-	bool dead;
 
-	float spawnx;
-	float spawny;
-	float spawnz;
+	float3 spawn;
 
 	int gamemode;
 	bool cheats;

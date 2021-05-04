@@ -51,22 +51,19 @@ void SaveManager_Load(SaveManager* mgr, char* path) {
 			mgr->world->genSettings.type = WorldGen_SuperFlat;
 
 		mpack_node_t player = mpack_node_array_at(mpack_node_map_cstr(root, "players"), 0);
-		mgr->player->spawnx=mpack_node_float(mpack_node_map_cstr(player,"sx"));
-		mgr->player->spawny=mpack_node_float(mpack_node_map_cstr(player,"sy"));
-		mgr->player->spawnz=mpack_node_float(mpack_node_map_cstr(player,"sz"));
 
 		mgr->player->position.x = mpack_node_float(mpack_node_map_cstr(player, "x"));
 		mgr->player->position.y = mpack_node_float(mpack_node_map_cstr(player, "y")) + 0.1f;
 		mgr->player->position.z = mpack_node_float(mpack_node_map_cstr(player, "z"));
 
-		mgr->player->gamemode=mpack_node_int(mpack_node_map_cstr(player,"gamemode"));
+		//mgr->player->gamemode=mpack_node_int(mpack_node_map_cstr(player,"gamemode"));
 		
 		mgr->player->pitch = mpack_node_float(mpack_node_map_cstr(player, "pitch"));
 		mgr->player->yaw = mpack_node_float(mpack_node_map_cstr(player, "yaw"));
 		mgr->player->hp=mpack_node_int(mpack_node_map_cstr(player,"hp"));
 		mgr->player->flying = mpack_elvis(player, "flying", bool, false);
 		mgr->player->crouching = mpack_elvis(player, "crouching", bool, false);
-		mgr->player->cheats = mpack_elvis(player, "cheats", bool, true);
+		//mgr->player->cheats = mpack_elvis(player, "cheats", bool, true);
 
 		mpack_error_t err = mpack_tree_destroy(&levelTree);
 		if (err != mpack_ok) {
@@ -93,18 +90,13 @@ void SaveManager_Unload(SaveManager* mgr) {
 	mpack_write_float(&writer, mgr->player->position.y);
 	mpack_write_cstr(&writer, "z");
 	mpack_write_float(&writer, mgr->player->position.z);
+	mpack_write_cstr(&writer, "hp");
+	mpack_write_int(&writer,mgr->player->hp);
 
-	mpack_write_cstr(&writer, "gamemode");
+	/*mpack_write_cstr(&writer, "gamemode");
 	mpack_write_int(&writer,mgr->player->gamemode);
 	mpack_write_cstr(&writer, "cheats");
-	mpack_write_bool(&writer,mgr->player->cheats);
-
-	mpack_write_cstr(&writer, "sx");
-	mpack_write_float(&writer,mgr->player->spawnx);
-	mpack_write_cstr(&writer, "sy");
-	mpack_write_float(&writer,mgr->player->spawny);
-	mpack_write_cstr(&writer, "sz");
-	mpack_write_float(&writer,mgr->player->spawnz);
+	mpack_write_bool(&writer,mgr->player->cheats);*/
 
 	mpack_write_cstr(&writer, "pitch");
 	mpack_write_float(&writer, mgr->player->pitch);
