@@ -1,10 +1,12 @@
+figure out why only sometimes a crash happens when in lava
+
 make fall damage use a actual formula instead of just checking for velocity
 
 add gui stuff for gamerules
 
-difficulty
+difficulty (speedrunning hardcore would be fun on this)
 
-multiplayer (either local, use a external server or p2p)
+multiplayer (either local, use a external server or p2p, would most likely need a entire rewrite of the player system)
 
 custom skins
 
@@ -36,7 +38,7 @@ tnt
 
 dimensions
 
-crafting (probs doing it in json)
+crafting (probs using json for crafting stuff)
 
 furnace
 
@@ -63,5 +65,11 @@ menu when you die (maybe cause of death as well)
 add beds (bed bombs?)
 
 add thing to enable cheats/commands in a world
+
+inventory
+
+animated textures
+
+transparent textures
 
 any help would be appreciated here

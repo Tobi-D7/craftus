@@ -37,6 +37,8 @@ typedef struct {
 	int armour;
 	int oxygen;
 	int hunger;
+	int difficulty;
+	bool onFire;
 
 	float spawnx;
 	float spawny;
@@ -46,7 +48,7 @@ typedef struct {
 	int gamemode;
 	bool cheats;
 
-	ItemStack inventory[24 + 16];
+	ItemStack inventory[40];
 
 	int quickSelectBarSlots;
 	int quickSelectBarSlot;
@@ -58,7 +60,7 @@ typedef struct {
 
 void Player_Init(Player* player, World* world);
 
-void Player_Update(Player* player, World* world);
+void Player_Update(Player* player);
 
 void Player_Move(Player* player, float dt, float3 accl);
 

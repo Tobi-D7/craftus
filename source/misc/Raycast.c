@@ -58,7 +58,7 @@ bool Raycast_Cast(World* world, float3 inpos, float3 raydir, Raycast_Result* out
 			mapZ += stepZ;
 			side = 2;
 		}
-		if (World_GetBlock(world, mapX, mapY, mapZ) != Block_Air) hit = 1;
+		if (World_GetBlock(world, mapX, mapY, mapZ) != Block_Air || World_GetBlock(world, mapX, mapY, mapZ) == Block_Lava) hit = 1;
 		// if (world->errFlags & World_ErrUnloadedBlockRequested) break;
 
 		if (steps++ > INF) break;

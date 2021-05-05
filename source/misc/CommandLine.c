@@ -66,5 +66,10 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			player->gamemode=gm;
 			DebugUI_Log("Set gamemode to %i", gm);
 		}
+		int diff;
+		if ( sscanf(&text[1],"diff %i",&diff)) {
+			player->difficulty=diff;
+			DebugUI_Log("Set difficulty to %i", diff);
+		}
 	}
 }

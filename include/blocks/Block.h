@@ -30,10 +30,13 @@ enum { Block_Air,
 	   Block_Obsidian,
 	   Block_Netherrack,
 	   Block_Sandstone,
-	   Block_Smooth_Stone,
+	   //Block_Smooth_Stone,
 	   Block_Crafting_Table,
 	   Block_Grass_Path,
-	   Blocks_Count };
+	   //Block_Water,
+	   Block_Lava,
+	   Blocks_Count
+};
 
 void Block_Init();
 void Block_Deinit();

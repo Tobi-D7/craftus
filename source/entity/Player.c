@@ -59,9 +59,10 @@ void Player_Init(Player* player, World* world) {
 		player->inventory[l++] = (ItemStack){Block_Obsidian, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Netherrack, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Sandstone, 0, 1};
-		player->inventory[l++] = (ItemStack){Block_Smooth_Stone, 0, 1};
+		//player->inventory[l++] = (ItemStack){Block_Smooth_Stone, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Crafting_Table, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Grass_Path, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Lava, 0, 1};
 
 		for (int i = 0; i < INVENTORY_QUICKSELECT_MAXSLOTS; i++) player->quickSelectBar[i] = (ItemStack){Block_Air, 0, 0};
 	}
@@ -71,38 +72,60 @@ void Player_Init(Player* player, World* world) {
 	player->autoJumpEnabled = true;
 }
 
-void Player_Update(Player* player,World* world) {
+void Player_Update(Player* player) {
+	float3 new;
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
+	for (int x = -1; x < 2; x++) {
+		for (int y = 0; y < 3; y++) {
+			for (int z = -1; z < 2; z++) {
+				int pX = FastFloor(new.x) + x;
+				int pY = FastFloor(new.y) + y;
+				int pZ = FastFloor(new.z) + z;
+				if (World_GetBlock(player->world, pX, pY-1, pZ) == Block_Lava){
+					DebugUI_Log("ur burning lol");
+					player->onFire=true;
+				} else {
+					DebugUI_Log("nofire");
+					player->onFire=false;
+				}
+			}
+		}
+	}
 	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==true*/){
-		/*if (difficulty!=3*) { 
-			lol, git gud, ur world is gone*/
-		if(player->spawnx!=NAN&&player->spawny!=NAN&&player->spawnz!=NAN) {
-			DebugUI_Log("Lol u ded");
-			player->position.x=player->spawnx;
-			player->position.y=player->spawny+0.6;
-			player->position.z=player->spawnz;
-			player->hp=20;
+		if (player->difficulty!=3) { 
+			if(player->spawnx!=NAN&&player->spawny!=NAN&&player->spawnz!=NAN) {
+				DebugUI_Log("Lol u ded");
+				player->position.x=player->spawnx;
+				player->position.y=player->spawny+0.6;
+				player->position.z=player->spawnz;
+				player->hp=20;
+			} else {
+				DebugUI_Log("No spawn, lol u ded");
+				player->position.x=0.0;
+				player->position.y=player->spawny2;
+				player->position.z=0.0;
+				player->hp=20;
+			}
 		} else {
-			DebugUI_Log("No spawn, lol u ded");
-			player->position.x=0.0;
-			player->position.y=player->spawny2;
-			player->position.z=0.0;
-			player->hp=20;
+			DebugUI_Log("lol ur world is gone");
+			/*char buffer[512];
+			sprintf(buffer, "sdmc:/craftus_redesigned/saves/%s", worlds.data[selectedWorld].path);
+			delete_folder(buffer);*/
 		}
 	}
 }
 
-bool Player_CanMove(Player* player, float newX, float newY, float newZ) {
+bool Player_CanMove(Player* player, float3 new) {
 	for (int x = -1; x < 2; x++) {
 		for (int y = 0; y < 3; y++) {
 			for (int z = -1; z < 2; z++) {
-				int pX = FastFloor(newX) + x;
-				int pY = FastFloor(newY) + y;
-				int pZ = FastFloor(newZ) + z;
-				if (World_GetBlock(player->world, pX, pY, pZ) != Block_Air) {
-					if (AABB_Overlap(newX - PLAYER_COLLISIONBOX_SIZE / 2.f, newY, newZ - PLAYER_COLLISIONBOX_SIZE / 2.f,
+				int pX = FastFloor(new.x) + x;
+				int pY = FastFloor(new.y) + y;
+				int pZ = FastFloor(new.z) + z;
+				if (World_GetBlock(player->world, pX, pY, pZ) != Block_Air&&World_GetBlock(player->world, pX, pY, pZ) != Block_Lava) {
+					if (AABB_Overlap(new.x - PLAYER_COLLISIONBOX_SIZE / 2.f, new.y, new.z - PLAYER_COLLISIONBOX_SIZE / 2.f,
 							 PLAYER_COLLISIONBOX_SIZE, PLAYER_HEIGHT, PLAYER_COLLISIONBOX_SIZE, pX, pY, pZ, 1.f,
 							 1.f, 1.f)) {
 						return false;
@@ -169,15 +192,14 @@ void Player_Move(Player* player, float dt, float3 accl) {
 						int pX = FastFloor(axisStep.x) + x;
 						int pY = FastFloor(axisStep.y) + y;
 						int pZ = FastFloor(axisStep.z) + z;
-						if (World_GetBlock(player->world, pX, pY, pZ) != Block_Air) {
+						if (World_GetBlock(player->world, pX, pY, pZ) != Block_Air&&World_GetBlock(player->world, pX, pY, pZ)!=Block_Lava) {
 							Box blockBox = Box_Create(pX, pY, pZ, 1, 1, 1);
 
 							float3 normal = f3_new(0.f, 0.f, 0.f);
 							float depth = 0.f;
 							int face = 0;
 
-							bool intersects =
-							    Collision_BoxIntersect(blockBox, playerBox, 0, &normal, &depth, &face);
+							bool intersects = Collision_BoxIntersect(blockBox, playerBox, 0, &normal, &depth, &face);
 							collision |= intersects;
 						}
 					}
@@ -210,7 +232,7 @@ void Player_Move(Player* player, float dt, float3 accl) {
 						     FastFloor(finalPos.y + nrmDiff.y) + 2, FastFloor(finalPos.z + nrmDiff.z));
 			Block landingBlock = World_GetBlock(player->world, FastFloor(finalPos.x + nrmDiff.x),
 							    FastFloor(finalPos.y + nrmDiff.y) + 1, FastFloor(finalPos.z + nrmDiff.z));
-			if (block == Block_Air && landingBlock != Block_Air) Player_Jump(player, accl);
+			if (block == Block_Air||block==Block_Lava && landingBlock != Block_Air||landingBlock!=Block_Lava) Player_Jump(player, accl);
 		}
 
 		if (player->crouching && player->crouchAdd > -0.3f) player->crouchAdd -= SimStep * 2.f;

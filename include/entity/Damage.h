@@ -4,12 +4,11 @@
 
 typedef struct {
     float BlocksFallen;
-    float ProjectileDamage;
-    float OverTimeDamage;
-    float NoArmourDamage;
-    float FallDamage;
-    float ArmourDamage;
 } Damage;
 
 void FallDamage();
 void Respawn();
+void ProjectileDamage();
+void OvertimeDamage();
+void NoArmourDamage();
+void ArmourDamage();

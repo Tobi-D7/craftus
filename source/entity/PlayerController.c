@@ -238,7 +238,6 @@ void PlayerController_Init(PlayerController* ctrl, Player* player) {
 
 void PlayerController_Update(PlayerController* ctrl, InputData input, float dt) {
 	Player* player = ctrl->player;
-	Damage* dmg;
 	PlatformAgnosticInput agnosticInput;
 	convertPlatformInput(&input, agnosticInput.keys, agnosticInput.keysdown, agnosticInput.keysup);
 
@@ -313,5 +312,5 @@ void PlayerController_Update(PlayerController* ctrl, InputData input, float dt) 
 	}
 
 	Player_Move(player, dt, movement);
-	Player_Update(player,dmg);
+	Player_Update(player);
 }

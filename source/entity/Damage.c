@@ -6,3 +6,9 @@ void FallDamage(Player* player){
 		player->hp=0;
 	}
 }
+
+/*void OvertimeDamage(Player* player){
+	if (player->onFire==true){
+
+	}
+}*/

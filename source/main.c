@@ -38,7 +38,6 @@ void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) 
 }
 
 int main() {
-	int highestblock = 0;
 	GameState gamestate = GameState_SelectWorld;
 
 	gfxInitDefault();
@@ -63,6 +62,7 @@ int main() {
 	sino_init();
 
 	World* world = (World*)malloc(sizeof(World));
+	Damage* dmg;
 	Player player;
 	PlayerController playerCtrl;
 	Player_Init(&player, world);
@@ -91,8 +91,8 @@ int main() {
 		DebugUI_Text("%d FPS  Usage: CPU: %5.2f%% GPU: %5.2f%% Buf: %5.2f%% Lin: %d", fps, C3D_GetProcessingTime() * 6.f,
 			     C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
 		DebugUI_Text("X: %f, Y: %f, Z: %f", f3_unpack(player.position));
-		DebugUI_Text("HP: %i",player.hp);
-		DebugUI_Text("SX: %f SY: %f SZ: %f",player.spawnx,player.spawny,player.spawnz);
+		//DebugUI_Text("HP: %i",player.hp);
+		//DebugUI_Text("SX: %f SY: %f SZ: %f",player.spawnx,player.spawny,player.spawnz);
 
 		Renderer_Render();
 

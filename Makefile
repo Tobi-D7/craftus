@@ -30,14 +30,14 @@ include $(DEVKITARM)/3ds_rules
 TARGET		:=	$(notdir $(CURDIR))
 SOURCES		:=	source source/misc source/world/worldgen source/blocks source/rendering source/gui source/world source/world/savegame source/entity source/savegame dependencies/mpack dependencies/vec dependencies/sino dependencies/lodepng dependencies/miniz dependencies/ini
 DATA		:=	data
-INCLUDES	:=	dependencies include includelink
+INCLUDES	:=	dependencies include
 ROMFS		:=	romfs
 
-APP_AUTHOR	:= RSDuck & Silentstorm
-APP_TITLE	:= Craftus Redesigned
-APP_DESCRIPTION := A Minecraft clone for 3DS
+APP_AUTHOR	:= Silentstorm
+APP_TITLE	:= Craftus
+APP_DESCRIPTION := Minecraft clone
 BANNER_AUDIO := romfs/theme.wav
-ICON		:=	icon/craftusreloaded.png
+ICON		:=	icon/craftus.png
 
 DEBUG		?=	0
 ifeq ($(DEBUG), 0)
