@@ -42,6 +42,8 @@ typedef struct {
 	WorkQueue* workqueue;
 
 	Xorshift32 randomTickGen;
+
+	int weather;
 } World;
 
 inline static int WorldToChunkCoord(int x) { return (x + (int)(x < 0)) / CHUNK_SIZE - (int)(x < 0); }

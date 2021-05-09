@@ -295,7 +295,6 @@ void PolyGen_GeneratePolygons(WorkQueue* queue, WorkerItem item, void* this) {
 						if (!Block_Opaque(cluster->blocks[x][y][z], cluster->metadataLight[x][y][z] & 0xf))
 							visibility |= floodFill(world, item.chunk, cluster, x, y, z, xDir, yDir, zDir);
 						Block block = fastBlockFetch(world, item.chunk, cluster, x, y, z + (!z ? -1 : 1));
-						uint8_t meta = fastMetadataFetch(world, item.chunk, cluster, x, y, z + (!z ? -1 : 1));
 						if (!Block_Opaque(block, cluster->metadataLight[x][y][z] & 0xf) &&
 						    cluster->blocks[x][y][z] != Block_Air) {
 							addFace(

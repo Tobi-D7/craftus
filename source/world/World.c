@@ -226,7 +226,6 @@ void World_Tick(World* world) {
 					yVals[i] = WorldToLocalCoord(Xorshift32_Next(&world->randomTickGen));
 					zVals[i] = WorldToLocalCoord(Xorshift32_Next(&world->randomTickGen));
 				}
-				BlockEvent_RandomTick(world, chunk, xVals, yVals, zVals);
 			}
 		}
 }

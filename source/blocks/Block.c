@@ -6,7 +6,7 @@
 static Texture_Map textureMap;
 
 // PATH PREFIX
-#define PPRX "romfs:/textures/blocks/"
+#define PPRX "romfs:/assets/blocks/"
 
 #define TEXTURE_FILES                                                                                                              \
 	A(stone, "stone.png")                                                                                                      \
@@ -50,12 +50,13 @@ static struct {
 	Texture_MapIcon sandstone_side;
 	Texture_MapIcon sandstone_top;
 	Texture_MapIcon sandstone_bottom;
-	//Texture_MapIcon smooth_stone;
+	Texture_MapIcon smooth_stone;
 	Texture_MapIcon grass_path_side;
 	Texture_MapIcon grass_path_top;
 	Texture_MapIcon crafting_table_side;
 	Texture_MapIcon crafting_table_top;
 	Texture_MapIcon lava;
+	Texture_MapIcon water;
 } icon;
 
 void Block_Init() {
@@ -177,9 +178,9 @@ void Block_GetTexture(Block block, Direction direction, uint8_t metadata, int16_
 					break;
 			}
 			break;
-		/*case Block_Smooth_Stone:
+		case Block_Smooth_Stone:
 			i = icon.smooth_stone;
-			break;*/
+			break;
 		case Block_Crafting_Table:
 			switch (direction) {
 				case Direction_Bottom:
@@ -196,9 +197,9 @@ void Block_GetTexture(Block block, Direction direction, uint8_t metadata, int16_
 		case Block_Lava:
 			i=icon.lava;
 			break;
-		/*case Block_Water:
+		case Block_Water:
 			i=icon.water;
-			break;*/
+			break;
 		case Block_Grass_Path:
 			switch (direction) {
 				case Direction_Bottom:
@@ -249,4 +250,4 @@ bool Block_Opaque(Block block, uint8_t metadata) { return block != Block_Air && 
 const char* BlockNames[Blocks_Count] = {"Air",    "Stone", "Dirt",	 "Grass",  "Cobblestone", "Sand", "Log",
 					"Leaves", "Glass", "Stone Bricks", "Bricks", "Planks",      "Wool", "Bedrock", "Gravel",
 					"Water", "Coarse", "Door_Top", "Door_Bottom", "Snow_Grass", "Snow", "Obsidian",
-					"Netherrack", "Sandstone", /*"Smooth_Stone"*/ "Crafting_Table", "Grass_Path","Water","Lava"};
+					"Netherrack", "Sandstone", "Smooth_Stone" "Crafting_Table", "Grass_Path","Water","Lava"};

@@ -7,8 +7,21 @@ void FallDamage(Player* player){
 	}
 }
 
-/*void OvertimeDamage(Player* player){
-	if (player->onFire==true){
-
+void OvertimeDamage(cause,time){
+	Player* player;
+	if (cause==1){
+		while(time<0){
+			player->hp-1;
+			sleep(1);
+			time-1;
+		}
+		cause==NULL;
+		time==NULL;
 	}
-}*/
+	/*if(cause==poison){
+		while(time<0)
+			player->hp-1;
+			sleep(1);
+			time-1;
+	}*/
+}

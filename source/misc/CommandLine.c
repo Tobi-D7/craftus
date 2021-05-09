@@ -40,36 +40,43 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			DebugUI_Log("Killed player");
 		}
 		float hp;
-		if ( sscanf(&text[1],"hp %f",&hp)) {
+		if (sscanf(&text[1],"hp %f",&hp)) {
 			player->hp=hp;
 			DebugUI_Log("Set player hp to %f", hp);
 		}
-		float x,y,z;
-		if (sscanf(&text[1], "ws %f %f %f", &x, &y, &z) == 3) {
-			player->spawnx = x;
-			player->spawny = y;
-			player->spawnz = z;
+		float sx,sy,sz;
+		if (sscanf(&text[1], "ws %f %f %f", &sx, &sy, &sz) == 3) {
+			player->spawnx = sx;
+			player->spawny = sy;
+			player->spawnz = sz;
 			mpack_write_cstr(&writer, "sx");
 			mpack_write_float(&writer,player->spawnx);
 			mpack_write_cstr(&writer, "sy");
 			mpack_write_float(&writer,player->spawny);
 			mpack_write_cstr(&writer, "sz");
 			mpack_write_float(&writer,player->spawnz);
-			DebugUI_Log("Set spawn to %f, %f %f", x, y, z);
+			DebugUI_Log("Set spawn to %f, %f %f", sx, sy, sz);
 			if (err != mpack_ok) {
 				DebugUI_Log("Mpack error %d while saving world manifest", err);
 				DebugUI_Log("Save file possibly corrupted, don't hit me plz");
 			}
 		}
 		int gm;
-		if ( sscanf(&text[1],"gm %i",&gm)) {
+		if (sscanf(&text[1],"gm %i",&gm)) {
 			player->gamemode=gm;
 			DebugUI_Log("Set gamemode to %i", gm);
 		}
 		int diff;
-		if ( sscanf(&text[1],"diff %i",&diff)) {
+		if (sscanf(&text[1],"diff %i",&diff)) {
 			player->difficulty=diff;
 			DebugUI_Log("Set difficulty to %i", diff);
 		}
+		/*int bx, by, bz; idfk how to get it to read strings as arguments
+		char block;
+		if (sscanf(&text[1], "sb %i %i %i", &bx, &by, &bz) == 3 &&) {
+			World_SetBlock(player->world, bx,by,bz, block);
+			DebugUI_Log("Block at %f, %f %f is now %c", bx, by, bz,block);
+		}*/
+		
 	}
 }

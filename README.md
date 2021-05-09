@@ -1,4 +1,5 @@
 My version of craftus redesigned adding some more commands and a basic survival mode
+
 Releases won't be happening for a while so you'll need devkitpro installed to compile this (and ofc, a hacked system that can load homebrew, citra also seems to work well)
 
 Craftus Redisigned is a modified version of Craftus Reloaded : https://github.com/RSDuck/craftus_reloaded.

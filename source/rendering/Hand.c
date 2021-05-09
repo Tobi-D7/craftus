@@ -14,7 +14,7 @@ extern const WorldVertex cube_sides_lut[6 * 6];
 
 void Hand_Init() {
 	handVBO = linearAlloc(sizeof(cube_sides_lut));
-	Texture_Load(&steveTexture, "romfs:/textures/entity/steve.png");
+	Texture_Load(&steveTexture, "romfs:/assets/entity/steve.png");
 }
 void Hand_Deinit() {
 	linearFree(handVBO);

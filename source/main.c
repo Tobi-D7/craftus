@@ -8,6 +8,7 @@
 #include <GameStates.h>
 #include <entity/Player.h>
 #include <entity/PlayerController.h>
+#include <entity/Damage.h>
 #include <gui/DebugUI.h>
 #include <gui/Gui.h>
 #include <gui/WorldSelect.h>
@@ -37,6 +38,8 @@ void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) 
 	SaveManager_Unload(savemgr);
 }
 
+//#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+
 int main() {
 	GameState gamestate = GameState_SelectWorld;
 
@@ -62,7 +65,6 @@ int main() {
 	sino_init();
 
 	World* world = (World*)malloc(sizeof(World));
-	Damage* dmg;
 	Player player;
 	PlayerController playerCtrl;
 	Player_Init(&player, world);
@@ -89,10 +91,10 @@ int main() {
 	int frameCounter = 0, fps = 0;
 	while (aptMainLoop()) {
 		DebugUI_Text("%d FPS  Usage: CPU: %5.2f%% GPU: %5.2f%% Buf: %5.2f%% Lin: %d", fps, C3D_GetProcessingTime() * 6.f,
-			     C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
+		C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
 		DebugUI_Text("X: %f, Y: %f, Z: %f", f3_unpack(player.position));
-		//DebugUI_Text("HP: %i",player.hp);
-		//DebugUI_Text("SX: %f SY: %f SZ: %f",player.spawnx,player.spawny,player.spawnz);
+		//DebugUI_Text("Time: %i Cause: %c",dmg->time,dmg->cause);
+		//DebugUI_Text("SX: %f SY: %f SZ: %f",player->spawnx,player->spawny,player->spawnz);
 
 		Renderer_Render();
 
@@ -200,7 +202,6 @@ int main() {
 	}
 
 	if (gamestate == GameState_Playing) releaseWorld(&chunkWorker, &savemgr, world);
-
 
 	SaveManager_Deinit(&savemgr);
 

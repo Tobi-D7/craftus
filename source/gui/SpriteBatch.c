@@ -43,15 +43,15 @@ void SpriteBatch_Init(int projUniform_) {
 	projUniform = projUniform_;
 
 	font = (Font*)malloc(sizeof(Font));
-	FontLoader_Init(font, "romfs:/textures/font/ascii.png");
-	Texture_Load(&widgetsTex, "romfs:/textures/gui/widgets.png");
+	FontLoader_Init(font, "romfs:/assets/font/ascii.png");
+	Texture_Load(&widgetsTex, "romfs:/assets/gui/widgets.png");
 
 	uint8_t data[16 * 16];
 	memset(data, 0xff, 16 * 16 * sizeof(uint8_t));
 	C3D_TexInit(&whiteTex, 16, 16, GPU_L8);
 	C3D_TexLoadImage(&whiteTex, data, GPU_TEXFACE_2D, 0);
 
-	Texture_Load(&menuBackgroundTex, "romfs:/textures/gui/options_background.png");
+	Texture_Load(&menuBackgroundTex, "romfs:/assets/gui/options_background.png");
 
 	Mtx_Identity(&iconModelMtx);
 	Mtx_RotateY(&iconModelMtx, M_PI / 4.f, false);

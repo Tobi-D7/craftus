@@ -93,7 +93,7 @@ void Renderer_Init(World* world_, Player* player_, WorkQueue* queue, GameState* 
 
 	Block_Init();
 
-	Texture_Load(&logoTex, "romfs:/textures/gui/title/craftus.png");
+	Texture_Load(&logoTex, "romfs:/assets/gui/title/craftus.png");
 }
 void Renderer_Deinit() {
 	C3D_TexDelete(&logoTex);

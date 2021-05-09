@@ -1,4 +1,4 @@
-figure out why only sometimes a crash happens when in lava
+figure out why only sometimes a crash happens when in lava (most likely due to renderer trying to figure out what is visible and it shits itself when you're inside of a block)
 
 make fall damage use a actual formula instead of just checking for velocity
 
@@ -6,13 +6,13 @@ add gui stuff for gamerules
 
 difficulty (speedrunning hardcore would be fun on this)
 
-multiplayer (either local, use a external server or p2p, would most likely need a entire rewrite of the player system)
+multiplayer (fuck this, i've spent 2 fucking days trying to get a socket working on it and nothing)
 
 custom skins
 
 mobs
 
-sound and music
+sound and music (this is being a bitch as well, trying to use opus examples found in dkp and getting undefined references)
 
 fire
 
