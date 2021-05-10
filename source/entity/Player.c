@@ -88,9 +88,11 @@ void Player_Update(Player* player) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
-	if (player->velocity.y<=-12){
-		
-	}
+	/*if (player->velocity.y<=-12){
+		int falldmg;
+		falldmg=player->position.y
+		player->hp=player->hp-falldmg;
+	}*/
 	if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
 		DebugUI_Log("ur burning lol");
 		OvertimeDamage("Fire",10);

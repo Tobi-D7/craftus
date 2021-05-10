@@ -35,14 +35,19 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 				DebugUI_Log("Teleported to %f, %f %f", x, y, z);
 			}
 		}
+		//int playerid;
 		if (length == 2 && text[1] == 'k') {
 			player->hp=0;
 			DebugUI_Log("Killed player");
 		}
-		float hp;
-		if (sscanf(&text[1],"hp %f",&hp)) {
-			player->hp=hp;
-			DebugUI_Log("Set player hp to %f", hp);
+		int hp;
+		if (sscanf(&text[1],"hp %i",&hp)) {
+			if (hp>0&&hp<21){
+				player->hp=hp;
+				DebugUI_Log("Set player hp to %i", hp);
+			} else {
+				DebugUI_Log("Cannot set hp to %i",hp);
+			}
 		}
 		float sx,sy,sz;
 		if (sscanf(&text[1], "ws %f %f %f", &sx, &sy, &sz) == 3) {
@@ -63,15 +68,24 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 		}
 		int gm;
 		if (sscanf(&text[1],"gm %i",&gm)) {
-			player->gamemode=gm;
-			DebugUI_Log("Set gamemode to %i", gm);
+			if (gm>0&&gm<5){
+				player->gamemode=gm;
+				DebugUI_Log("Set gamemode to %i", gm);
+			} else {
+				DebugUI_Log("Cannot set gamemode to %i",gm);
+			}
+
 		}
 		int diff;
 		if (sscanf(&text[1],"diff %i",&diff)) {
-			player->difficulty=diff;
-			DebugUI_Log("Set difficulty to %i", diff);
+			if (diff>0&&diff<6) {
+				player->difficulty=diff;
+				DebugUI_Log("Set difficulty to %i", diff);
+			} else {
+				DebugUI_Log("Cannot set difficulty to %i",diff);
+			}
 		}
-		/*int bx, by, bz; idfk how to get it to read strings as arguments
+		/*int bx, by, bz; 					idfk how to get it to read strings as arguments, compiler isn't liking it
 		char block;
 		if (sscanf(&text[1], "sb %i %i %i", &bx, &by, &bz) == 3 &&) {
 			World_SetBlock(player->world, bx,by,bz, block);

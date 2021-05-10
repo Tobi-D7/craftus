@@ -1,8 +1,14 @@
 Custom version of craftus that intends to clone minecraft 1.16.5
 
-Releases won't be happening for a while so you'll need devkitpro installed to compile this (and ofc, a hacked system that can load homebrew, citra also seems to work well)
+Releases aren't going to be too common (hrr drr, changed a variable name, make a release just for it)
+
+To build from source, it's like building any other 3ds homebrew app. Just run make and if you've got devkitpro setup right, it'll give you craftus.3dsx
+
+You'll need a hacked system that can load homebrew for this to run (citra is good for testing but i haven't been able to get most of the controls working there)
+
 
 Craftus Redisigned is a modified version of Craftus Reloaded : https://github.com/RSDuck/craftus_reloaded.
+
 
 After launching it for the first time, you can change the controls in `sd:/craftus_redesigned/options.ini`.
 You can also change the settings in `sd:/craftus_redesigned/options.ini`.

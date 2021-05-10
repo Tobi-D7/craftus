@@ -38,8 +38,7 @@ typedef struct {
 	int oxygen;
 	int hunger;
 	int difficulty;
-	float blocksfallen;
-	float oldy;
+	int falldmg;
 
 	float spawnx;
 	float spawny;
