@@ -39,6 +39,7 @@ typedef struct {
 	int hunger;
 	int difficulty;
 	float blocksfallen;
+	float oldy;
 
 	float spawnx;
 	float spawny;
@@ -48,7 +49,7 @@ typedef struct {
 	int gamemode;
 	bool cheats;
 
-	ItemStack inventory[42];
+	ItemStack inventory[54];
 
 	int quickSelectBarSlots;
 	int quickSelectBarSlot;

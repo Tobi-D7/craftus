@@ -64,6 +64,17 @@ void Player_Init(Player* player, World* world) {
 		player->inventory[l++] = (ItemStack){Block_Grass_Path, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Lava, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Water, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Iron_Block, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Iron_Ore, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Coal_Block, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Coal_Ore, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Gold_Block, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Gold_Ore, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Diamond_Block, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Diamond_Ore, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Emerald_Block, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Emerald_Ore, 0, 1};
+		player->inventory[l++] = (ItemStack){Block_Furnace, 0, 1};
 
 		for (int i = 0; i < INVENTORY_QUICKSELECT_MAXSLOTS; i++) player->quickSelectBar[i] = (ItemStack){Block_Air, 0, 0};
 	}
@@ -74,12 +85,20 @@ void Player_Init(Player* player, World* world) {
 }
 
 void Player_Update(Player* player) {
-	//Damage* dmg;
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
-	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 5.f * 5.f * 5.f;
+	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
+	if (player->grounded==false){
+		player->oldy=player->position.y;
+		player->blocksfallen=player->position.y-player->oldy;
+	} else {
+		player->blocksfallen=0;
+	}
 	//DebugUI_Text("Time: %i Cause: %c",dmg->time,dmg->cause);
 	//DebugUI_Text("SX: %f SY: %f SZ: %f",player->spawnx,player->spawny,player->spawnz);
+	if (player->blocksfallen<=3&&player->grounded==false) {
+		DebugUI_Log("idfk");
+	}
 	if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava){
 		DebugUI_Log("ur burning lol");
 		OvertimeDamage("fire",10);

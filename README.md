@@ -1,4 +1,4 @@
-My version of craftus redesigned adding some more commands and a basic survival mode
+Custom version of craftus that intends to clone minecraft 1.16.5
 
 Releases won't be happening for a while so you'll need devkitpro installed to compile this (and ofc, a hacked system that can load homebrew, citra also seems to work well)
 
@@ -35,6 +35,7 @@ You can also change the settings in `sd:/craftus_redesigned/options.ini`.
 
 
 # Credits
+* GamesSanti who made Craftus Redesigned
 * RSDuck who made Craftus and Craftus Reloaded
 * People who made 3DS homebrew possible
     * Especially smea for 3dscraft which is good place for ~~stealing ideas~~ inspiration

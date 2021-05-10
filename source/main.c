@@ -42,11 +42,11 @@ void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) 
 
 int main() {
 	GameState gamestate = GameState_SelectWorld;
-
+	printf("gfxinit");
 	gfxInitDefault();
 
 	gfxSet3D(true);
-
+	printf("romfsinit");
 	romfsInit();
 
 	SuperFlatGen flatGen;
