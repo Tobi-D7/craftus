@@ -8,17 +8,18 @@
 #include <string.h>
 
 static WorldVertex* handVBO;
-static C3D_Tex steveTexture;
+static C3D_Tex SkinTexture;
 
 extern const WorldVertex cube_sides_lut[6 * 6];
 
 void Hand_Init() {
 	handVBO = linearAlloc(sizeof(cube_sides_lut));
-	Texture_Load(&steveTexture, "romfs:/assets/entity/steve.png");
+	
+	Texture_Load(&SkinTexture, "romfs:/assets/entity/skin.png");
 }
 void Hand_Deinit() {
 	linearFree(handVBO);
-	C3D_TexDelete(&steveTexture);
+	C3D_TexDelete(&SkinTexture);
 }
 
 void Hand_Draw(int projUniform, C3D_Mtx* projection, ItemStack stack, Player* player) {
@@ -64,7 +65,7 @@ void Hand_Draw(int projUniform, C3D_Mtx* projection, ItemStack stack, Player* pl
 				handVBO[idx].rgb[2] = color[2];
 			}
 		} else {
-			C3D_TexBind(0, &steveTexture);
+			C3D_TexBind(0, &SkinTexture);
 
 			if (i == Direction_East ||
 			    i == Direction_West) {  // eines der dümmsten Dinge, die ich jemals in meinem Leben getan habe

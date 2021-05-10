@@ -51,7 +51,7 @@ void Clouds_Render(int projUniform, C3D_Mtx* projectionview, World* world, float
 	C3D_Mtx model;
 	Mtx_Identity(&model);
 	Mtx_Translate(&model, tx, 90.f, tz, true);
-	Mtx_Scale(&model, 60.f, 60.f, 60.f);
+	Mtx_Scale(&model, 90.f, 90.f, 90.f);
 
 	C3D_CullFace(GPU_CULL_NONE);
 

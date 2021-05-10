@@ -88,43 +88,15 @@ void Player_Update(Player* player) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
-	if (player->grounded==false){
-		player->oldy=player->position.y;
-		player->blocksfallen=player->position.y-player->oldy;
-	} else {
-		player->blocksfallen=0;
+	if (player->velocity.y<=-12){
+		
 	}
-	//DebugUI_Text("Time: %i Cause: %c",dmg->time,dmg->cause);
-	//DebugUI_Text("SX: %f SY: %f SZ: %f",player->spawnx,player->spawny,player->spawnz);
-	if (player->blocksfallen<=3&&player->grounded==false) {
-		DebugUI_Log("idfk");
-	}
-	if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava){
+	if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
 		DebugUI_Log("ur burning lol");
-		OvertimeDamage("fire",10);
+		OvertimeDamage("Fire",10);
 	}
-
 	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==true*/){
-		if (player->difficulty!=3) { 
-			if(player->spawnx!=NAN&&player->spawny!=NAN&&player->spawnz!=NAN) {
-				DebugUI_Log("Lol u ded");
-				player->position.x=player->spawnx;
-				player->position.y=player->spawny+0.6;
-				player->position.z=player->spawnz;
-				player->hp=20;
-			} else {
-				DebugUI_Log("No spawn, lol u ded");
-				player->position.x=0.0;
-				player->position.y=player->spawny2;
-				player->position.z=0.0;
-				player->hp=20;
-			}
-		} else {
-			DebugUI_Log("lol ur world is gone");
-			/*char buffer[512];
-			sprintf(buffer, "sdmc:/craftus_redesigned/saves/%s", worlds.data[selectedWorld].path);
-			delete_folder(buffer);*/
-		}
+		Respawn();
 	}
 }
 

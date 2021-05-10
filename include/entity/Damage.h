@@ -3,13 +3,11 @@
 #include <entity/Player.h>
 
 typedef struct {
-    int cause;
+    char cause;
     int time;
 }Damage;
 
-
-void FallDamage();
-void Respawn();
+void Respawn(cause);
 void ProjectileDamage();
 void OvertimeDamage(cause, time);
 void NoArmourDamage();
