@@ -39,11 +39,13 @@ typedef struct {
 	int hunger;
 	int difficulty;
 	int falldmg;
+	float rndy;
 
 	float spawnx;
 	float spawny;
 	float spawnz;
 	float spawny2;
+	int spawnset;
 
 	int gamemode;
 	bool cheats;
@@ -60,7 +62,7 @@ typedef struct {
 
 void Player_Init(Player* player, World* world);
 
-void Player_Update(Player* player);
+void Player_Update(Player* player,Damage* dmg);
 
 void Player_Move(Player* player, float dt, float3 accl);
 

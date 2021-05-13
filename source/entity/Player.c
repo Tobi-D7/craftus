@@ -84,21 +84,57 @@ void Player_Init(Player* player, World* world) {
 	player->autoJumpEnabled = true;
 }
 
-void Player_Update(Player* player) {
+void Player_Update(Player* player,Damage* dmg) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
-	/*if (player->velocity.y<=-12){
-		int falldmg;
-		falldmg=player->position.y
-		player->hp=player->hp-falldmg;
-	}*/
+	if (player->velocity.y<=-12){
+		player->rndy;
+		player->rndy=round(player->velocity.y);
+		if(World_GetBlock(player->world,player->position.x,player->position.y-1,player->position.z) != Block_Air){
+			player->hp=player->hp+player->rndy;
+			player->rndy=0;
+		}
+	}
 	if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
 		DebugUI_Log("ur burning lol");
 		OvertimeDamage("Fire",10);
 	}
-	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==true*/){
-		Respawn();
+	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==false*/){
+		if (player->difficulty!=4) { 
+			if(player->spawnset=0) {
+				if (dmg->cause==NULL){
+					DebugUI_Log("Player died");
+				} else {
+					DebugUI_Log("Died by %s",dmg->cause);
+				}
+				DebugUI_Log("No spawn was set");
+				player->position.x=0.0;
+				DebugUI_Log("spawny2: %f",player->spawny2);
+				player->position.y=player->spawny2;
+				player->position.z=0.0;
+				player->hp=20;
+				dmg->cause=NULL;
+			} 
+			if (player->spawnset=1){
+				if (dmg->cause==NULL){
+					DebugUI_Log("Player died");
+				} else {
+					DebugUI_Log("Died by %s",dmg->cause);
+				}
+				player->position.x=player->spawnx;
+				DebugUI_Log("spawny: %f",player->spawny);
+				player->position.y=player->spawny+0.1;
+				player->position.z=player->spawnz;
+				player->hp=20;
+				dmg->cause=NULL;
+			}
+		} else {
+			DebugUI_Log("lol ur world is gone");
+			/*char buffer[512];
+			sprintf(buffer, "sdmc:/craftus_redesigned/saves/%s", worlds.data[selectedWorld].path);
+			delete_folder(buffer);*/
+		}
 	}
 }
 

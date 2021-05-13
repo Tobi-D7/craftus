@@ -55,6 +55,13 @@ void SaveManager_Load(SaveManager* mgr, char* path) {
 		mgr->player->position.x = mpack_node_float(mpack_node_map_cstr(player, "x"));
 		mgr->player->position.y = mpack_node_float(mpack_node_map_cstr(player, "y")) + 0.1f;
 		mgr->player->position.z = mpack_node_float(mpack_node_map_cstr(player, "z"));
+		mgr->player->spawnset = mpack_node_int(mpack_node_map_cstr(player,"ss"));
+		if (mpack_node_int(mpack_node_map_cstr(player,"ss"))==1){
+			mgr->player->spawnx = mpack_node_float(mpack_node_map_cstr(player, "sx"));
+			mgr->player->spawny = mpack_node_float(mpack_node_map_cstr(player, "sy"));
+			mgr->player->spawnz = mpack_node_float(mpack_node_map_cstr(player, "sz"));
+			mgr->player->spawnset = mpack_node_int(mpack_node_map_cstr(player,"ss"))
+		}
 
 		//mgr->player->gamemode=mpack_node_int(mpack_node_map_cstr(player,"gamemode"));
 		

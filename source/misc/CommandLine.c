@@ -54,12 +54,15 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			player->spawnx = sx;
 			player->spawny = sy;
 			player->spawnz = sz;
+			player->spawnset=1;
 			mpack_write_cstr(&writer, "sx");
 			mpack_write_float(&writer,player->spawnx);
 			mpack_write_cstr(&writer, "sy");
 			mpack_write_float(&writer,player->spawny);
 			mpack_write_cstr(&writer, "sz");
 			mpack_write_float(&writer,player->spawnz);
+			mpack_write_cstr(&writer, "ss");
+			mpack_write_int(&writer,player->spawnset);
 			DebugUI_Log("Set spawn to %f, %f %f", sx, sy, sz);
 			if (err != mpack_ok) {
 				DebugUI_Log("Mpack error %d while saving world manifest", err);
