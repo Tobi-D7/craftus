@@ -1,28 +1,27 @@
 #include <world/worldgen/SuperFlatGen.h>
 
 #include <misc/NumberUtils.h>
-#include <blocks/BlockDefs.h>
 
 void SuperFlatGen_Init(SuperFlatGen* gen, World* world) {}
 
 void SuperFlatGen_Generate(WorkQueue* queue, WorkerItem item, void* this) {
 	for (int y = 0; y < 17; y++) {
-		Block block = BlockDef_Air;
+		Block block = Block_Air;
 		switch (y) {  // TODO: Mit einem Lookup Table ersetzen, Superflach Gen konfigurierbar machen
 			case 0:
-				block = BlockDef_Bedrock;
+				block = Block_Bedrock;
 				break;
 			case 1 ... 10:
-				block = BlockDef_Stone;
+				block = Block_Stone;
 				break;
 			case 11 ... 15:
-				block = BlockDef_Dirt;
+				block = Block_Dirt;
 				break;
 			case 16:
-				block = BlockDef_Grass;
+				block = Block_Grass;
 				break;
 			default:
-				block = BlockDef_Air;
+				block = Block_Air;
 				break;
 		}
 		for (int x = 0; x < CHUNK_SIZE; x++)
