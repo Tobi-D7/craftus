@@ -113,8 +113,9 @@ void Player_Update(Player* player,Damage* dmg) {
 				DebugUI_Log("spawny2: %f",player->spawny2);
 				World* world = player->world;
 				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawn) != Block_Air)
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
 					spawnY++;
+					player->position.y=spawnY+1;
 				player->position.z=0.0;
 				player->hp=20;
 				dmg->cause=NULL;
@@ -129,17 +130,10 @@ void Player_Update(Player* player,Damage* dmg) {
 				DebugUI_Log("spawny: %f",player->spawny);
 				World* world = player->world;
 				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawn) != Block_Air)
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
 					spawnY++;
-				
-
-				player->position.y=spawnY;
+				player->position.y=spawnY+1;
 				player->position.z=player->spawnz;
-				player->hp=20;
-				player->hp=20;
-				player->hp=20;
-				player->hp=20;
-				player->hp=20;
 				player->hp=20;
 				dmg->cause=NULL;
 			}
