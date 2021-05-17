@@ -88,6 +88,7 @@ void Player_Update(Player* player,Damage* dmg) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
+	//Fall damage
 	if (player->velocity.y<=-12){
 		player->rndy;
 		player->rndy=round(player->velocity.y);
@@ -96,10 +97,17 @@ void Player_Update(Player* player,Damage* dmg) {
 			player->rndy=0;
 		}
 	}
+	//Fire damage
 	if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
 		DebugUI_Log("ur burning lol");
 		OvertimeDamage("Fire",10);
 	}
+	//Hunger
+	//if (player->gamemode!=0){
+		svcSleepThread(5000000);
+		player->position.x=0;
+	//}
+	//Respawning stuff
 	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==false*/){
 		if (player->difficulty!=4) { 
 			if(player->spawnset=0) {
@@ -113,7 +121,7 @@ void Player_Update(Player* player,Damage* dmg) {
 				DebugUI_Log("spawny2: %f",player->spawny2);
 				World* world = player->world;
 				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz).id != Block_Air)
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
 					spawnY++;
 
 				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
@@ -132,7 +140,7 @@ void Player_Update(Player* player,Damage* dmg) {
 				DebugUI_Log("spawny: %f",player->spawny);
 				World* world = player->world;
 				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz).id != Block_Air)
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
 					spawnY++;
 
 				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;

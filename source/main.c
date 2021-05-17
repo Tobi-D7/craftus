@@ -90,13 +90,14 @@ int main() {
 	float dt = 0.f, timeAccum = 0.f, fpsClock = 0.f;
 	int frameCounter = 0, fps = 0;
 	while (aptMainLoop()) {
-		DebugUI_Text("%d FPS  Usage: CPU: %5.2f%% GPU: %5.2f%% Buf: %5.2f%% Lin: %d", fps, C3D_GetProcessingTime() * 6.f,
-		C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
+		//DebugUI_Text("%d FPS  Usage: CPU: %5.2f%% GPU: %5.2f%% Buf: %5.2f%% Lin: %d", fps, C3D_GetProcessingTime() * 6.f,
+		//C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
 		DebugUI_Text("X: %f, Y: %f, Z: %f", f3_unpack(player.position));
-		DebugUI_Text("HP: %i rndy: %f spawny2: %f spawnset: %i",player.hp,player.rndy,player.spawny2,player.spawnset);
+		//DebugUI_Text("HP: %i rndy: %f spawny2: %f spawnset: %i",player.hp,player.rndy,player.spawny2,player.spawnset);
 		//DebugUI_Text("velocity: %f rndy: %f",player.velocity.y,player.rndy);
 		//DebugUI_Text("Time: %i Cause: %c",dmg->time,dmg->cause);
 		//DebugUI_Text("SX: %f SY: %f SZ: %f",player->spawnx,player->spawny,player->spawnz);
+		DebugUI_Text("fuckofflol: %i",player.fuckofflol);
 
 		Renderer_Render();
 

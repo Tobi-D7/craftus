@@ -24,6 +24,8 @@ typedef struct {
 	bool grounded, jumped, sprinting, flying, crouching;
 	World* world;
 
+	int fuckofflol;
+
 	float3 view;
 
 	bool autoJumpEnabled;
