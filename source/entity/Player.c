@@ -116,7 +116,7 @@ void Player_Update(Player* player,Damage* dmg) {
 				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
 					spawnY++;
 
-				bool shouldOffset = world->genSettings.type == WorldGen_SuperFlat;
+				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
 				player->position.y=spawnY + shouldOffset ? 1 : 0;
 				player->position.z=0.0;
 				player->hp=20;
@@ -135,7 +135,7 @@ void Player_Update(Player* player,Damage* dmg) {
 				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
 					spawnY++;
 
-				bool shouldOffset = world->genSettings.type == WorldGen_SuperFlat;
+				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
 				player->position.y=spawnY + shouldOffset ? 1 : 0;
 				player->position.z=player->spawnz;
 				player->hp=20;
