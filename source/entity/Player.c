@@ -127,6 +127,11 @@ void Player_Update(Player* player,Damage* dmg) {
 				player->position.y=player->spawny+0.1;
 				player->position.z=player->spawnz;
 				player->hp=20;
+				player->hp=20;
+				player->hp=20;
+				player->hp=20;
+				player->hp=20;
+				player->hp=20;
 				dmg->cause=NULL;
 			}
 		} else {
