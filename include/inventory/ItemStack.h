@@ -15,7 +15,7 @@ typedef struct {
 
 inline bool ItemStack_Empty(ItemStack stack) { return stack.amount == 0; }
 inline void ItemStack_Transfer(ItemStack* src, ItemStack* dst) {
-	if ((src->block == dst->block && src->meta == dst->meta) || dst->amount == 0) {
+	if ((src->block.id == dst->block.id && src->meta == dst->meta) || dst->amount == 0) {
 		int vol = MIN(src->amount, ITEMSTACK_MAX - dst->amount);
 		src->amount -= vol;
 		dst->amount += vol;

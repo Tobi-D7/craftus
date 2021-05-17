@@ -5,8 +5,6 @@
 
 #include <world/Direction.h>
 
-typedef uint8_t Block;
-
 enum { Block_Air,
     Block_Stone,
     Block_Dirt,
@@ -48,6 +46,10 @@ enum { Block_Air,
 	Block_Furnace,
 	Blocks_Count
 };
+typedef struct {
+	int id;
+	char liquidType;
+} Block;
 
 void Block_Init();
 void Block_Deinit();
