@@ -113,7 +113,7 @@ void Player_Update(Player* player,Damage* dmg) {
 				DebugUI_Log("spawny2: %f",player->spawny2);
 				World* world = player->world;
 				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz).id != Block_Air)
 					spawnY++;
 
 				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
@@ -132,7 +132,7 @@ void Player_Update(Player* player,Damage* dmg) {
 				DebugUI_Log("spawny: %f",player->spawny);
 				World* world = player->world;
 				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz).id != Block_Air)
 					spawnY++;
 
 				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
