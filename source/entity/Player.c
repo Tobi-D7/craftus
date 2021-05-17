@@ -111,7 +111,10 @@ void Player_Update(Player* player,Damage* dmg) {
 				DebugUI_Log("No spawn was set");
 				player->position.x=0.0;
 				DebugUI_Log("spawny2: %f",player->spawny2);
-				player->position.y=player->spawny2;
+				World* world = player->world;
+				int spawnY = 1;
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawn) != Block_Air)
+					spawnY++;
 				player->position.z=0.0;
 				player->hp=20;
 				dmg->cause=NULL;
@@ -124,7 +127,13 @@ void Player_Update(Player* player,Damage* dmg) {
 				}
 				player->position.x=player->spawnx;
 				DebugUI_Log("spawny: %f",player->spawny);
-				player->position.y=player->spawny+0.1;
+				World* world = player->world;
+				int spawnY = 1;
+				while (World_GetBlock(world, player->spawnx, spawnY, player->spawn) != Block_Air)
+					spawnY++;
+				
+
+				player->position.y=spawnY;
 				player->position.z=player->spawnz;
 				player->hp=20;
 				player->hp=20;
