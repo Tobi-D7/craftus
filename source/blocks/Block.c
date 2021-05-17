@@ -2,6 +2,7 @@
 
 #include <rendering/TextureMap.h>
 #include <rendering/VertexFmt.h>
+#include <BlockDefs.h>
 
 static Texture_Map textureMap;
 
@@ -88,7 +89,7 @@ void* Block_GetTextureMap() { return &textureMap.texture; }
 
 void Block_GetTexture(Block block, Direction direction, uint8_t metadata, int16_t* out_uv) {
 	Texture_MapIcon i = {0, 0, 0};
-	switch (block) {
+	switch (block.id) {
 		case Block_Air:
 			return;
 		case Block_Dirt:
@@ -302,7 +303,7 @@ void Block_GetColor(Block block, uint8_t metadata, Direction direction, uint8_t 
 	}
 }
 
-bool Block_Opaque(Block block, uint8_t metadata) { return block != Block_Air && block != Block_Glass && block != Block_Door_Top && block != Block_Door_Bottom; }
+bool Block_Opaque(Block block, uint8_t metadata) { return block != BlockDef_Air && block != BlockDef_Glass && block != BlockDef_ && block != BlockDef_Door_Bottom; }
 
 const char* BlockNames[Blocks_Count] = {
 	"Air","Stone","Dirt","Grass","Cobblestone","Sand","Log","Leaves","Glass","Stone Bricks","Bricks","Planks","Wool","Bedrock","Gravel",

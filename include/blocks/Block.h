@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <blocks/BlockDefs.h>
 
 #include <world/Direction.h>
 
