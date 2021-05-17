@@ -1,6 +1,7 @@
 #include <world/worldgen/SmeaGen.h>
 
 #include <sino/sino.h>
+#include <blocks/BlockDefs.h>
 
 void SmeaGen_Init(SmeaGen* gen, World* world) { gen->world = world; }
 
@@ -17,12 +18,12 @@ void SmeaGen_Generate(WorkQueue* queue, WorkerItem item, void* this) {
 				     (smeasChunkHeight * smeasClusterSize / 2);
 
 			for (int y = 0; y < height - 3; y++) {
-				Chunk_SetBlock(item.chunk, x, y, z, Block_Stone);
+				Chunk_SetBlock(item.chunk, x, y, z, BlockDef_Stone);
 			}
 			for (int y = height - 3; y < height; y++) {
-				Chunk_SetBlock(item.chunk, x, y, z, Block_Dirt);
+				Chunk_SetBlock(item.chunk, x, y, z, BlockDef_Dirt);
 			}
-			Chunk_SetBlock(item.chunk, x, height, z, Block_Grass);
+			Chunk_SetBlock(item.chunk, x, height, z, BlockDef_Grass);
 		}
 	}
 }
