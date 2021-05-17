@@ -13,8 +13,7 @@ void World_Init(World* world, WorkQueue* workqueue) {
 
 	world->workqueue = workqueue;
 
-	//world->genSettings.seed = 28112000;
-	world->genSettings.seed = 82753822;
+	world->genSettings.seed = 28112000;
 	world->genSettings.type = WorldGen_SuperFlat;
 
 	vec_init(&world->freeChunks);
