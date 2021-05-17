@@ -2,9 +2,10 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <blocks/BlockDefs.h>
 
 #include <world/Direction.h>
+
+typedef uint8_t Block;
 
 enum { Block_Air,
     Block_Stone,
@@ -47,10 +48,6 @@ enum { Block_Air,
 	Block_Furnace,
 	Blocks_Count
 };
-typedef struct {
-	int id;
-	char liquidType;
-} Block;
 
 void Block_Init();
 void Block_Deinit();
