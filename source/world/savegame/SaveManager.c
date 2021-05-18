@@ -68,6 +68,7 @@ void SaveManager_Load(SaveManager* mgr, char* path) {
 		mgr->player->pitch = mpack_node_float(mpack_node_map_cstr(player, "pitch"));
 		mgr->player->yaw = mpack_node_float(mpack_node_map_cstr(player, "yaw"));
 		mgr->player->hp=mpack_node_int(mpack_node_map_cstr(player,"hp"));
+		mgr->player->hunger=mpack_node_int(mpack_node_map_cstr(player,"hunger"));
 		mgr->player->flying = mpack_elvis(player, "flying", bool, false);
 		mgr->player->crouching = mpack_elvis(player, "crouching", bool, false);
 		//mgr->player->cheats = mpack_elvis(player, "cheats", bool, true);
@@ -99,6 +100,8 @@ void SaveManager_Unload(SaveManager* mgr) {
 	mpack_write_float(&writer, mgr->player->position.z);
 	mpack_write_cstr(&writer, "hp");
 	mpack_write_int(&writer,mgr->player->hp);
+	mpack_write_cstr(&writer, "hunger");
+	mpack_write_int(&writer,mgr->player->hunger);
 
 	/*mpack_write_cstr(&writer, "gamemode");
 	mpack_write_int(&writer,mgr->player->gamemode);
@@ -116,13 +119,11 @@ void SaveManager_Unload(SaveManager* mgr) {
 	mpack_write_cstr(&writer, "crouching");
 	mpack_write_bool(&writer, mgr->player->crouching);
 
-	mpack_finish_map(&writer);
-	mpack_finish_array(&writer);
-
 	mpack_write_cstr(&writer, "worldType");
 	mpack_write_uint(&writer, mgr->world->genSettings.type);
 
 	mpack_finish_map(&writer);
+	mpack_finish_array(&writer);
 
 	mpack_error_t err = mpack_writer_destroy(&writer);
 	if (err != mpack_ok) {

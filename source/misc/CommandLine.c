@@ -79,6 +79,16 @@ void CommandLine_Execute(World* world, Player* player, const char* text) {
 			}
 
 		}
+		int hunger;
+		if (sscanf(&text[1],"hunger %i",&hunger)) {
+			if (hunger>0&&hunger<5){
+				player->hunger=hunger;
+				DebugUI_Log("Set hunger to %i", hunger);
+			} else {
+				DebugUI_Log("Cannot set hunger to %i",hunger);
+			}
+
+		}
 		int diff;
 		if (sscanf(&text[1],"diff %i",&diff)) {
 			if (diff>0&&diff<6) {

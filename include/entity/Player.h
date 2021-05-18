@@ -24,8 +24,6 @@ typedef struct {
 	bool grounded, jumped, sprinting, flying, crouching;
 	World* world;
 
-	int fuckofflol;
-
 	float3 view;
 
 	bool autoJumpEnabled;
@@ -34,19 +32,18 @@ typedef struct {
 	float simStepAccum;
 
 	float breakPlaceTimeout;
+	int hungertimer;
 
 	int hp;
 	int armour;
 	int oxygen;
 	int hunger;
 	int difficulty;
-	int falldmg;
 	float rndy;
 
 	float spawnx;
 	float spawny;
 	float spawnz;
-	float spawny2;
 	int spawnset;
 
 	int gamemode;

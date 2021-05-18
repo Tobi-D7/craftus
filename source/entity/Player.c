@@ -9,14 +9,15 @@ void Player_Init(Player* player, World* world) {
 	player->pitch = 0.f;
 	player->yaw = 0.f;
 
-	player->hp=20;
-
 	player->grounded = false;
 	player->sprinting = false;
 	player->world = world;
+	player->gamemode=0;
+	player->difficulty=1;
 
 	player->fovAdd = 0.f;
 	player->crouchAdd = 0.f;
+	player->hungertimer=0;
 
 	player->view = f3_new(0, 0, -1);
 
@@ -25,8 +26,6 @@ void Player_Init(Player* player, World* world) {
 
 	player->blockInSight = false;
 	player->blockInActionRange = false;
-
-	player->gamemode=0;
 
 	player->velocity = f3_new(0, 0, 0);
 	player->simStepAccum = 0.f;
@@ -88,74 +87,85 @@ void Player_Update(Player* player,Damage* dmg) {
 	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
 	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
 	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
-	//Fall damage
-	if (player->velocity.y<=-12){
-		player->rndy;
-		player->rndy=round(player->velocity.y);
-		if(World_GetBlock(player->world,player->position.x,player->position.y-1,player->position.z) != Block_Air){
-			player->hp=player->hp+player->rndy;
-			player->rndy=0;
-		}
-	}
-	//Fire damage
-	if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
-		DebugUI_Log("ur burning lol");
-		OvertimeDamage("Fire",10);
-	}
-	//Hunger
-	//if (player->gamemode!=0){
-		svcSleepThread(5000000);
-		player->position.x=0;
-	//}
-	//Respawning stuff
-	if (player->hp<=0&&player->gamemode!=1/*&&player->totem==false*/){
-		if (player->difficulty!=4) { 
-			if(player->spawnset=0) {
-				if (dmg->cause==NULL){
-					DebugUI_Log("Player died");
-				} else {
-					DebugUI_Log("Died by %s",dmg->cause);
-				}
-				DebugUI_Log("No spawn was set");
-				player->position.x=0.0;
-				DebugUI_Log("spawny2: %f",player->spawny2);
-				World* world = player->world;
-				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
-					spawnY++;
-
-				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
-				player->position.y=shouldOffset ? spawnY + 1 : spawnY;
-				player->position.z=0.0;
-				player->hp=20;
-				dmg->cause=NULL;
-			} 
-			if (player->spawnset=1){
-				if (dmg->cause==NULL){
-					DebugUI_Log("Player died");
-				} else {
-					DebugUI_Log("Died by %s",dmg->cause);
-				}
-				player->position.x=player->spawnx;
-				DebugUI_Log("spawny: %f",player->spawny);
-				World* world = player->world;
-				int spawnY = 1;
-				while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
-					spawnY++;
-
-				bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
-				player->position.y=shouldOffset ? spawnY + 1 : spawnY;
-				player->position.z=player->spawnz;
-				player->hp=20;
-				dmg->cause=NULL;
+	//if (player->gamemode!=1){
+		//Fall damage
+		if (player->velocity.y<=-12){
+			player->rndy;
+			player->rndy=round(player->velocity.y);
+			if(World_GetBlock(player->world,player->position.x,player->position.y-1,player->position.z) != Block_Air){
+				player->hp=player->hp+player->rndy;
+				player->rndy=0;
 			}
-		} else {
-			DebugUI_Log("lol ur world is gone");
-			/*char buffer[512];
-			sprintf(buffer, "sdmc:/craftus_redesigned/saves/%s", worlds.data[selectedWorld].path);
-			delete_folder(buffer);*/
 		}
-	}
+		//Fire damage
+		if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
+			DebugUI_Log("ur burning lol");
+			OvertimeDamage("Fire",10);
+		}
+		//Hunger
+		//if (player->difficulty!=0){
+						// 1000000000 having this here as reference on how long 1 second is
+			svcSleepThread(10000000);
+			player->hungertimer=player->hungertimer+1;
+			if(player->hungertimer==400&&player->hunger!=0){
+				player->hunger=player->hunger-1;
+				player->hungertimer=0;
+			}
+			if (player->hunger==0){
+				svcSleepThread(10000000);
+				if(player->hungertimer==400){
+					player->hp=player->hp-1;
+					player->hungertimer=0;
+				}
+			}
+		//}
+		//Respawning stuff
+		if (player->hp<=0/*&&player->totem==false*/){
+			if (player->difficulty!=4) { 
+				if(player->spawnset=0) {
+					if (dmg->cause==NULL){
+						DebugUI_Log("Player died");
+					} else {
+						DebugUI_Log("Died by %s",dmg->cause);
+					}
+					DebugUI_Log("No spawn was set");
+					player->position.x=0.0;
+					World* world = player->world;
+					int spawnY = 1;
+					while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
+						spawnY++;
+
+					bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
+					player->position.y=shouldOffset ? spawnY + 1 : spawnY;
+					player->position.z=0.0;
+				} 
+				if (player->spawnset=1){
+					if (dmg->cause==NULL){
+						DebugUI_Log("Player died");
+					} else {
+						DebugUI_Log("Died by %s",dmg->cause);
+					}
+					player->position.x=player->spawnx;
+					World* world = player->world;
+					int spawnY = 1;
+					while (World_GetBlock(world, player->spawnx, spawnY, player->spawnz) != Block_Air)
+						spawnY++;
+
+					bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
+					player->position.y=shouldOffset ? spawnY + 1 : spawnY;
+					player->position.z=player->spawnz;
+				}
+				player->hp=20;
+				player->hunger=20;
+				dmg->cause=NULL;
+			} else {
+				DebugUI_Log("lol ur world is gone");
+				/*char buffer[512];
+				sprintf(buffer, "sdmc:/craftus_redesigned/saves/%s", worlds.data[selectedWorld].path);
+				delete_folder(buffer);*/
+			}
+		}
+	//}
 }
 
 bool Player_CanMove(Player* player, float3 new) {
@@ -186,7 +196,6 @@ void Player_Jump(Player* player, float3 accl) {
 		player->velocity.y = 6.7f;
 		player->jumped = true;
 		player->crouching = false;
-		//playsound();
 	}
 }
 #include <gui/DebugUI.h>
