@@ -99,6 +99,7 @@ int main() {
 		//DebugUI_Text("SX: %f SY: %f SZ: %f",player->spawnx,player->spawny,player->spawnz);
 		DebugUI_Text("Hunger: %i Hungertimer: %i",player.hunger,player.hungertimer);
 		DebugUI_Text("Gamemode: %i",player.gamemode);
+		DebugUI_Text("quickbar %i",player.quickSelectBarSlot);
 
 		Renderer_Render();
 

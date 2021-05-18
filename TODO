@@ -22,7 +22,7 @@ make doors actually work
 
 gates and fences
 
-hunger
+food
 
 hud stuff for hp
 
@@ -46,7 +46,7 @@ potions
 
 projectiles
 
-liquids
+liquids (half done, now need to make them spread)
 
 block hardness and explosion resistance
 

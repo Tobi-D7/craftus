@@ -25,7 +25,7 @@ static Texture_Map textureMap;
 	A(furnace_front,"furnace_front.png")
 
 #define A(i, n) PPRX n
-const char* texture_files[] = {TEXTURE_FILES};
+const char* block_texture_files[] = {TEXTURE_FILES};
 #undef A
 
 static struct {
@@ -77,7 +77,7 @@ static struct {
 } icon;
 
 void Block_Init() {
-	Texture_MapInit(&textureMap, texture_files, sizeof(texture_files) / sizeof(texture_files[0]));
+	Texture_MapInit(&textureMap, block_texture_files, sizeof(block_texture_files) / sizeof(block_texture_files[0]));
 #define A(i, n) icon.i = Texture_MapGetIcon(&textureMap, PPRX n)
 	TEXTURE_FILES;
 #undef A
@@ -264,6 +264,9 @@ void Block_GetTexture(Block block, Direction direction, uint8_t metadata, int16_
 			switch (direction) {
 				case Direction_South:
 					i = icon.furnace_front;
+					break;
+				case Direction_Top:
+					i=icon.smooth_stone;
 					break;
 				default:
 					i = icon.furnace_side;

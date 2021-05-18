@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include <blocks/Block.h>
+#include <blocks/Item.h>
 
 #include <misc/NumberUtils.h>
 

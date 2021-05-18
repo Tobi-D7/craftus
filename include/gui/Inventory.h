@@ -8,7 +8,7 @@
 #define INVENTORY_QUICKSELECT_HEIGHT (22 + 1)
 
 inline int Inventory_QuickSelectCalcSlots(int screenwidth) { return MIN(INVENTORY_QUICKSELECT_MAXSLOTS, (screenwidth - 21 * 2) / 20 + 2); }
-inline int Inventory_QuickSelectCalcWidth(int slots) { return 42 + (slots - 2) * 20; }
+inline int Inventory_QuickSelectCalcWidth(int slots) { return 54 + (slots - 2) * 20; }
 
 void Inventory_DrawQuickSelect(int x, int y, ItemStack* stacks, int count, int* selected);
 
