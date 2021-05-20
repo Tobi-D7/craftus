@@ -6,10 +6,10 @@
 static Texture_Map textureMap;
 
 // PATH PREFIX
-#define PPRX "romfs:/assets/items/"
+#define PPRX "romfs:/assets/blocks/"
 
 #define ITEM_TEXTURE_FILES                                                                                                               \
-	A(totem, "../notexture.png")
+	A(totem, "dirt.png")
 
 #define A(i, n) PPRX n
 const char* item_texture_files[] = {ITEM_TEXTURE_FILES};

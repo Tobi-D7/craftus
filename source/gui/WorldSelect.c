@@ -12,6 +12,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <entity/Player.h>
+
 #include <mpack/mpack.h>
 
 #include <3ds.h>
@@ -110,11 +112,11 @@ static bool canceled_deletion = false;
 
 static WorldGenType worldGenType = WorldGen_SuperFlat;
 
-//static gamemodes gamemode = gamemode_survival;
+static gamemode gamemode1=Gamemode_Survival;
+
+static char* gamemodestr[]={"Survival","Creative","Adventure","Spectator"};
 
 static char* worldGenTypesStr[] = {"Smea", "Superflat"};
-
-//static char* gamemodes[] = {"Survival", "Creative"};
 
 static MenuState menustate = MenuState_SelectWorld;
 
@@ -193,14 +195,15 @@ void WorldSelect_Render() {
 		}
 		Gui_EndRow();
 
-		/*Gui_BeginRowCenter(Gui_RelativeWidth(0.9f), 3);
-		Gui_Label(0.45f, true, INT16_MAX, false, "Gamemode");
+		Gui_Offset(0, 32);
+		Gui_BeginRowCenter(Gui_RelativeWidth(0.9f), 3);
+		Gui_Label(0.45f, true, INT16_MAX, false, "Gamemode:");
 		Gui_Space(0.1f);
-		if (Gui_Button(0.45f, "%s", gamemodes[worldGenType])) {
-			worldGenType++;
-			if (worldGenType == WorldGenTypes_Count) worldGenType = 0;
+		if (Gui_Button(0.45f, "%s", gamemodestr[gamemode1])) {
+			gamemode1++;
+			if (gamemode1 ==Gamemode_Count) gamemode1 = 0;
 		}
-		Gui_EndRow();*/
+		Gui_EndRow();
 
 		Gui_VerticalSpace(Gui_RelativeHeight(0.4f));
 
@@ -211,7 +214,7 @@ void WorldSelect_Render() {
 	}
 }
 
-bool WorldSelect_Update(char* out_worldpath, char* out_name, WorldGenType* worldType, bool* newWorld) {
+bool WorldSelect_Update(char* out_worldpath, char* out_name, WorldGenType* worldType, bool* newWorld,Player* player,gamemode gamemode3) {
 	if (clicked_new_world) {
 		clicked_new_world = false;
 		menustate = MenuState_WorldOptions;
@@ -219,6 +222,7 @@ bool WorldSelect_Update(char* out_worldpath, char* out_name, WorldGenType* world
 	if (confirmed_world_options) {
 		confirmed_world_options = false;
 		*worldType = worldGenType;
+		player->gamemode=gamemode3;
 
 		static SwkbdState swkbd;
 		static char name[WORLD_NAME_SIZE];
