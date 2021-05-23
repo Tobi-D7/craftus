@@ -43,11 +43,11 @@ DEBUG		?=	0
 ifeq ($(DEBUG), 0)
 BUILD		:=	build
 CFLAGS_ADD	:=	-fomit-frame-pointer -O2
-LIBS	:= -lcitro3d -lctru -lm
+LIBS	:= -lcitro3d -lctru -lm `$(PREFIX)pkg-config opusfile --libs` 
 else
 BUILD		:=	debug_build
 CFLAGS_ADD	:=	-Og -D_DEBUG
-LIBS	:= -lcitro3dd -lctrud -lm
+LIBS	:= -lcitro3dd -lctrud -lm `$(PREFIX)pkg-config opusfile --libs` 
 endif
 
 #---------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ CFLAGS	:=	-g -Wall -mword-relocations \
 			 -ffunction-sections $(CFLAGS_ADD)\
 			$(ARCH) -save-temps
 
-CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS
+CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS `$(PREFIX)pkg-config opusfile --cflags`
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 
@@ -70,7 +70,7 @@ LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CTRULIB)
+LIBDIRS	:= $(PORTLIBS) $(CTRULIB)
 
 
 #---------------------------------------------------------------------------------

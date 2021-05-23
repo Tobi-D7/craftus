@@ -195,7 +195,7 @@ void WorldSelect_Render() {
 		}
 		Gui_EndRow();
 
-		Gui_Offset(0, 32);
+		/*Gui_Offset(0, 32);
 		Gui_BeginRowCenter(Gui_RelativeWidth(0.9f), 3);
 		Gui_Label(0.45f, true, INT16_MAX, false, "Gamemode:");
 		Gui_Space(0.1f);
@@ -203,7 +203,7 @@ void WorldSelect_Render() {
 			gamemode1++;
 			if (gamemode1 ==Gamemode_Count) gamemode1 = 0;
 		}
-		Gui_EndRow();
+		Gui_EndRow();*/
 
 		Gui_VerticalSpace(Gui_RelativeHeight(0.4f));
 
@@ -214,7 +214,7 @@ void WorldSelect_Render() {
 	}
 }
 
-bool WorldSelect_Update(char* out_worldpath, char* out_name, WorldGenType* worldType, bool* newWorld,Player* player,gamemode gamemode3) {
+bool WorldSelect_Update(char* out_worldpath, char* out_name, WorldGenType* worldType, bool* newWorld) {
 	if (clicked_new_world) {
 		clicked_new_world = false;
 		menustate = MenuState_WorldOptions;
@@ -222,7 +222,7 @@ bool WorldSelect_Update(char* out_worldpath, char* out_name, WorldGenType* world
 	if (confirmed_world_options) {
 		confirmed_world_options = false;
 		*worldType = worldGenType;
-		player->gamemode=gamemode3;
+		//player->gamemode=gamemode3;
 
 		static SwkbdState swkbd;
 		static char name[WORLD_NAME_SIZE];
