@@ -1,7 +1,7 @@
 //This is all trimmed code from the opus example, i barely have a idea of what the fuck i am doing with sound on the 3ds
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
-#include </usr/include/opus/opusfile.h>
+#include <opus/opusfile.h>
 #include <3ds.h>
 
 #include <stdio.h>
@@ -55,18 +55,17 @@ void audioExit(void) {
     linearFree(s_audioBuffer);
 }
 bool fillBuffer(OggOpusFile *opusFile_, ndspWaveBuf *waveBuf_) {
-    int totalSamples = 0;
-    while(totalSamples < SAMPLES_PER_BUF) {
-        int16_t *buffer = waveBuf_->data_pcm16 + (totalSamples *
-            CHANNELS_PER_SAMPLE);
-        const size_t bufferSize = (SAMPLES_PER_BUF - totalSamples) *
-            CHANNELS_PER_SAMPLE;
+    Sound* sound;
+    sound->totalsamples = 0;
+    while(sound->totalsamples < SAMPLES_PER_BUF) {
+        int16_t *buffer = waveBuf_->data_pcm16 + (sound->totalsamples * CHANNELS_PER_SAMPLE);
+        const size_t bufferSize = (SAMPLES_PER_BUF - sound->totalsamples) * CHANNELS_PER_SAMPLE;
         const int samples = op_read_stereo(opusFile_, buffer, bufferSize);
-        totalSamples += samples;
+        sound->totalsamples += samples;
     }
-    waveBuf_->nsamples = totalSamples;
+    waveBuf_->nsamples = sound->totalsamples;
     ndspChnWaveBufAdd(0, waveBuf_);
-    DSP_FlushDataCache(waveBuf_->data_pcm16,totalSamples * CHANNELS_PER_SAMPLE * sizeof(int16_t));
+    DSP_FlushDataCache(waveBuf_->data_pcm16,sound->totalsamples * CHANNELS_PER_SAMPLE * sizeof(int16_t));
     return true;
 }
 void audioCallback(void *const nul_) {
@@ -93,6 +92,7 @@ void audioThread(void *const opusFile_) {
 }
 
 void playopus(path){
+    Sound* sound;
     LightEvent_Init(&s_event, RESET_ONESHOT);
     audioInit();
     ndspSetCallback(audioCallback, NULL);
@@ -103,6 +103,13 @@ void playopus(path){
     priority = priority < 0x18 ? 0x18 : priority;
     priority = priority > 0x3F ? 0x3F : priority;
     const Thread threadId = threadCreate(audioThread, opusFile,THREAD_STACK_SZ, priority,THREAD_AFFINITY, false);
+    if (sound->totalsamples==0){
+        s_quit = true;
+        LightEvent_Signal(&s_event);
+        threadJoin(threadId, UINT64_MAX);
+        threadFree(threadId);
+        audioExit();
+    }
 }
 
 void audioDeinit(path){
