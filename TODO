@@ -10,7 +10,7 @@ multiplayer (fuck this, i've spent 2 fucking days trying to get a socket working
 
 mobs
 
-sound and music (bg music is in, bit of a performance hit tho, 8-9 fps on avg lost)
+sound and music (it softlocks completely for some reason when the file finishes playing, guessing the thread needs to be closed or something)
 
 fire
 
