@@ -58,15 +58,14 @@ bool fillBuffer(OggOpusFile *opusFile_, ndspWaveBuf *waveBuf_) {
     Sound* sound;
     sound->totalsamples = 0;
     while(sound->totalsamples < SAMPLES_PER_BUF) {
-        int16_t *buffer = waveBuf_->data_pcm16 + (sound->totalsamples * CHANNELS_PER_SAMPLE);
-        const size_t bufferSize = (SAMPLES_PER_BUF - sound->totalsamples) * CHANNELS_PER_SAMPLE;
+        int16_t *buffer = waveBuf_->data_pcm16 + (sound->totalsamples *
+            CHANNELS_PER_SAMPLE);
+        const size_t bufferSize = (SAMPLES_PER_BUF - sound->totalsamples) *
+            CHANNELS_PER_SAMPLE;
         const int samples = op_read_stereo(opusFile_, buffer, bufferSize);
+        
         sound->totalsamples += samples;
     }
-    waveBuf_->nsamples = sound->totalsamples;
-    ndspChnWaveBufAdd(0, waveBuf_);
-    DSP_FlushDataCache(waveBuf_->data_pcm16,sound->totalsamples * CHANNELS_PER_SAMPLE * sizeof(int16_t));
-    return true;
 }
 void audioCallback(void *const nul_) {
     (void)nul_;
@@ -91,32 +90,33 @@ void audioThread(void *const opusFile_) {
     }
 }
 
-void playopus(path){
-    Sound* sound;
+void playopus(Sound* sound){
     LightEvent_Init(&s_event, RESET_ONESHOT);
     audioInit();
     ndspSetCallback(audioCallback, NULL);
-    OggOpusFile *opusFile = op_open_file(path, NULL);
+    OggOpusFile *opusFile = op_open_file(sound->path, NULL);
     int32_t priority = 0x30;
     svcGetThreadPriority(&priority, CUR_THREAD_HANDLE);
     priority -= 1;
     priority = priority < 0x18 ? 0x18 : priority;
     priority = priority > 0x3F ? 0x3F : priority;
-    const Thread threadId = threadCreate(audioThread, opusFile,THREAD_STACK_SZ, priority,THREAD_AFFINITY, false);
+    /*const Thread threadId = threadCreate(audioThread, opusFile,THREAD_STACK_SZ, priority,THREAD_AFFINITY, false);
     if (sound->totalsamples==0){
+        OggOpusFile *opusFile = op_open_file(sound->path, NULL);
+        op_free(opusFile);
         s_quit = true;
         LightEvent_Signal(&s_event);
         threadJoin(threadId, UINT64_MAX);
         threadFree(threadId);
         audioExit();
-    }
+    }*/
 }
 
-void audioDeinit(path){
+void audioDeinit(Sound* sound){
     s_quit = true;
     LightEvent_Signal(&s_event);
     audioExit();
     ndspExit();
-    OggOpusFile *opusFile = op_open_file(path, NULL);
+    OggOpusFile *opusFile = op_open_file(sound->path, NULL);
     op_free(opusFile);
 }

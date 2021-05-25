@@ -74,12 +74,11 @@ void Player_Init(Player* player, World* world) {
 		player->inventory[l++] = (ItemStack){Block_Emerald_Block, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Emerald_Ore, 0, 1};
 		player->inventory[l++] = (ItemStack){Block_Furnace, 0, 1};
-		player->inventory[l++] = (ItemStack){Item_Totem, 0, 1};
+		//player->inventory[l++] = (ItemStack){Item_Totem, 0, 1};
 
 		for (int i = 0; i < INVENTORY_QUICKSELECT_MAXSLOTS; i++) player->quickSelectBar[i] = (ItemStack){Block_Air, 0, 0};
 	}
 	extern bool showDebugInfo;
-	showDebugInfo ^= true;
 
 	player->autoJumpEnabled = true;
 }
@@ -122,7 +121,7 @@ void Player_Update(Player* player,Damage* dmg) {
 		//}
 		//Respawning stuff
 		if (player->hp<=0/*&&player->totem==false*/){
-			if (player->difficulty!=4) { 
+			if (player->difficulty!=4) {
 				if(player->spawnset=0) {
 					if (dmg->cause==NULL){
 						DebugUI_Log("Player died");
@@ -319,7 +318,7 @@ void Player_PlaceBlock(Player* player) {
 		World_SetBlockAndMeta(player->world, player->viewRayCast.x + offset[0], player->viewRayCast.y + offset[1],
 				      player->viewRayCast.z + offset[2], player->quickSelectBar[player->quickSelectBarSlot].block,
 				      player->quickSelectBar[player->quickSelectBarSlot].meta);
-		playopus("romfs:/hit.opus");
+		playopus("romfs:/assets/sound/entity/player/hit.opus");
 	}
 	if (player->breakPlaceTimeout < 0.f) player->breakPlaceTimeout = PLAYER_PLACE_REPLACE_TIMEOUT;
 }

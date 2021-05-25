@@ -41,6 +41,8 @@ You can also change the settings in `sd:/craftus_redesigned/options.ini`.
 
 
 # Credits
+* People in the nintendo homebrew discord server willing to answer stupid questions
+* KosmicDev for better y spawning code
 * GamesSanti who made Craftus Redesigned
 * RSDuck who made Craftus and Craftus Reloaded
 * People who made 3DS homebrew possible

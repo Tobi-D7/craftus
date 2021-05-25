@@ -20,11 +20,13 @@
 #include <world/savegame/SuperChunk.h>
 #include <world/worldgen/SmeaGen.h>
 #include <world/worldgen/SuperFlatGen.h>
+#include <misc/Crash.h>
+#include <misc/Sound.h>
 
 #include <sino/sino.h>
 #include <citro3d.h>
 
-bool showDebugInfo = false;
+bool showDebugInfo = true;
 
 void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) {
 	for (int i = 0; i < CHUNKCACHE_SIZE; i++) {
@@ -48,10 +50,10 @@ int main() {
 	romfsInit();
 
 	ndspInit();
-	audioInit();
 
 	SuperFlatGen flatGen;
 	SmeaGen smeaGen;
+	Sound* sound;
 
 	SuperChunk_InitPools();
 
@@ -77,8 +79,9 @@ int main() {
 	Renderer_Init(world, &player, &chunkWorker.queue, &gamestate);
 
 	DebugUI_Init();
-	
-	playopus("romfs:/hit.opus");
+
+	sound->path="romfs:/assets/sounds/test.opus";
+	playopus();
 
 	WorldSelect_Init();
 

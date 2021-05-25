@@ -13,9 +13,10 @@ void OvertimeDamage(cause,time){
 		time==NULL;
 	}
 	if(cause=="poison"){
-		while(time<0)
+		while(time<0){
 			player->hp-1;
 			sleep(1);
 			time-1;
+		}
 	}
 }
