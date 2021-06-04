@@ -94,22 +94,22 @@ void playopus(Sound* sound){
     LightEvent_Init(&s_event, RESET_ONESHOT);
     audioInit();
     ndspSetCallback(audioCallback, NULL);
-    OggOpusFile *opusFile = op_open_file(sound->path, NULL);
+    OggOpusFile *opusFile = op_open_file("romfs:/assets/sound/music/1.opus", NULL);
     int32_t priority = 0x30;
     svcGetThreadPriority(&priority, CUR_THREAD_HANDLE);
     priority -= 1;
     priority = priority < 0x18 ? 0x18 : priority;
     priority = priority > 0x3F ? 0x3F : priority;
-    /*const Thread threadId = threadCreate(audioThread, opusFile,THREAD_STACK_SZ, priority,THREAD_AFFINITY, false);
+    const Thread threadId = threadCreate(audioThread, opusFile,THREAD_STACK_SZ, priority,THREAD_AFFINITY, false);
     if (sound->totalsamples==0){
-        OggOpusFile *opusFile = op_open_file(sound->path, NULL);
+        OggOpusFile *opusFile = op_open_file("romfs:/assets/sound/music/1.opus", NULL);
         op_free(opusFile);
         s_quit = true;
         LightEvent_Signal(&s_event);
         threadJoin(threadId, UINT64_MAX);
         threadFree(threadId);
         audioExit();
-    }*/
+    }
 }
 
 void audioDeinit(Sound* sound){

@@ -81,6 +81,7 @@ void Player_Init(Player* player, World* world) {
 	extern bool showDebugInfo;
 
 	player->autoJumpEnabled = true;
+	playopus();
 }
 
 void Player_Update(Player* player,Damage* dmg) {

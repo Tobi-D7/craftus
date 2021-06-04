@@ -80,8 +80,8 @@ int main() {
 
 	DebugUI_Init();
 
-	sound->path="romfs:/assets/sounds/test.opus";
-	playopus();
+	//sound->path="romfs:/assets/sound/music/1.opus";
+	//playopus();
 
 	WorldSelect_Init();
 
