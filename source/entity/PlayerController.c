@@ -7,6 +7,7 @@
 
 #include <ini/ini.h>
 #include <unistd.h>
+#include <misc/Sound.h>
 
 #ifdef _3DS
 #include <3ds.h>
@@ -236,7 +237,7 @@ void PlayerController_Init(PlayerController* ctrl, Player* player) {
 	ctrl->flyTimer = -1.f;
 }
 
-void PlayerController_Update(PlayerController* ctrl, InputData input, float dt) {
+void PlayerController_Update(PlayerController* ctrl, Sound* sound, InputData input, float dt) {
 	Player* player = ctrl->player;
 	Damage* dmg;
 	PlatformAgnosticInput agnosticInput;
@@ -279,7 +280,7 @@ void PlayerController_Update(PlayerController* ctrl, InputData input, float dt) 
 
 	float placeBlock = IsKeyDown(ctrl->controlScheme.placeBlock, &agnosticInput);
 	float breakBlock = IsKeyDown(ctrl->controlScheme.breakBlock, &agnosticInput);
-	if (placeBlock > 0.f) Player_PlaceBlock(player);
+	if (placeBlock > 0.f) Player_PlaceBlock(player, sound);
 	if (breakBlock > 0.f) Player_BreakBlock(player);
 
 	if (jump > 0.f) Player_Jump(player, movement);
@@ -313,5 +314,5 @@ void PlayerController_Update(PlayerController* ctrl, InputData input, float dt) 
 	}
 
 	Player_Move(player, dt, movement);
-	Player_Update(player,dmg);
+	Player_Update(player, sound, dmg);
 }
