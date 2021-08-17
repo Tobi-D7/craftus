@@ -55,20 +55,37 @@ void SaveManager_Load(SaveManager* mgr, char* path) {
 		mgr->player->position.x = mpack_node_float(mpack_node_map_cstr(player, "x"));
 		mgr->player->position.y = mpack_node_float(mpack_node_map_cstr(player, "y")) + 0.1f;
 		mgr->player->position.z = mpack_node_float(mpack_node_map_cstr(player, "z"));
-		mgr->player->spawnset = mpack_node_int(mpack_node_map_cstr(player,"ss"));
+	/*	mgr->player->spawnset = mpack_node_int(mpack_node_map_cstr(player,"ss"));
 		if (mpack_node_int(mpack_node_map_cstr(player,"ss"))==1){
 			mgr->player->spawnx = mpack_node_float(mpack_node_map_cstr(player, "sx"));
 			mgr->player->spawny = mpack_node_float(mpack_node_map_cstr(player, "sy"));
 			mgr->player->spawnz = mpack_node_float(mpack_node_map_cstr(player, "sz"));
 			mgr->player->spawnset = mpack_node_int(mpack_node_map_cstr(player,"ss"));
-		}
+		}*/
 
 		//mgr->player->gamemode=mpack_node_int(mpack_node_map_cstr(player,"gamemode"));
-		
+		//use this optional part for "old" version of saved worlds
+		mpack_node_t hpNode = mpack_node_map_cstr_optional(player, "hp");
+		if (mpack_node_type(hpNode) != mpack_type_nil)
+		{
+			mgr->player->hp = mpack_node_int(mpack_node_map_cstr(player, "hp"));
+		}
+		else
+		{
+			mgr->player->hp = 20;
+		}
+		mpack_node_t hungerNode = mpack_node_map_cstr_optional(player, "hunger");
+		if (mpack_node_type(hungerNode) != mpack_type_nil)
+		{
+			mgr->player->hunger = mpack_node_int(mpack_node_map_cstr(player, "hunger"));
+		}
+		else
+		{
+			mgr->player->hunger = 20;
+		}
 		mgr->player->pitch = mpack_node_float(mpack_node_map_cstr(player, "pitch"));
 		mgr->player->yaw = mpack_node_float(mpack_node_map_cstr(player, "yaw"));
-		mgr->player->hp=mpack_node_int(mpack_node_map_cstr(player,"hp"));
-		mgr->player->hunger=mpack_node_int(mpack_node_map_cstr(player,"hunger"));
+		
 		mgr->player->flying = mpack_elvis(player, "flying", bool, false);
 		mgr->player->crouching = mpack_elvis(player, "crouching", bool, false);
 		//mgr->player->cheats = mpack_elvis(player, "cheats", bool, true);
@@ -90,7 +107,7 @@ void SaveManager_Unload(SaveManager* mgr) {
 
 	mpack_write_cstr(&writer, "players");
 	mpack_start_array(&writer, 1);
-	mpack_start_map(&writer, 7);
+	mpack_start_map(&writer, 9);
 
 	mpack_write_cstr(&writer, "x");
 	mpack_write_float(&writer, mgr->player->position.x);
@@ -119,11 +136,11 @@ void SaveManager_Unload(SaveManager* mgr) {
 	mpack_write_cstr(&writer, "crouching");
 	mpack_write_bool(&writer, mgr->player->crouching);
 
-	mpack_write_cstr(&writer, "worldType");
-	mpack_write_uint(&writer, mgr->world->genSettings.type);
-
 	mpack_finish_map(&writer);
 	mpack_finish_array(&writer);
+
+	mpack_write_cstr(&writer, "worldType");
+	mpack_write_uint(&writer, mgr->world->genSettings.type);
 
 	mpack_error_t err = mpack_writer_destroy(&writer);
 	if (err != mpack_ok) {

@@ -16,3 +16,10 @@ lib/
 citrapid
 killcitra
 upload
+/Debug
+*.vcxproj
+*.sln
+*.db
+*.opendb
+/Craftus.vcxproj.user
+/Craftus.vcxproj.filters
