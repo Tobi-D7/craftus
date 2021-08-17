@@ -13,7 +13,7 @@ void Crash(const char* reason, ...) {
 	va_start(vl, reason);
 	vprintf(reason, vl);
 
-	FILE* f = fopen("sdmc:/craftus/crash.txt", "w");
+	FILE* f = fopen("sdmc:/craftus_redesigned/crash.txt", "w");
 	vfprintf(f, reason, vl);
 	fclose(f);
 
@@ -29,4 +29,18 @@ void Crash(const char* reason, ...) {
 	}
 
 	exit(EXIT_FAILURE);
+}
+
+void Log(const char* reason, ...) {
+
+	va_list vl;
+	va_start(vl, reason);
+	vprintf(reason, vl);
+
+	FILE* f = fopen("sdmc:/craftus_redesigned/Log.txt", "a");
+	vfprintf(f, reason, vl);
+	fclose(f);
+
+	va_end(vl);
+
 }
