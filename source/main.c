@@ -82,12 +82,6 @@ int main() {
 	Renderer_Init(world, &player, &chunkWorker.queue, &gamestate);
 	
 	DebugUI_Init();
-<<<<<<< HEAD
-
-	playopus();
-=======
-	
->>>>>>> 78cccca472e6b954d249446dd6bd13192daa3846
 
 	WorldSelect_Init();
 
@@ -270,11 +264,6 @@ int main() {
 
 	WorldSelect_Deinit();
 
-<<<<<<< HEAD
-=======
-	
-
->>>>>>> 78cccca472e6b954d249446dd6bd13192daa3846
 	DebugUI_Deinit();
 
 	ChunkWorker_Deinit(&chunkWorker);

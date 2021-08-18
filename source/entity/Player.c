@@ -83,10 +83,6 @@ void Player_Init(Player* player, World* world) {
 	extern bool showDebugInfo;
 
 	player->autoJumpEnabled = true;
-<<<<<<< HEAD
-=======
-
->>>>>>> 78cccca472e6b954d249446dd6bd13192daa3846
 }
 
 void Player_Update(Player* player, Sound* sound, Damage* dmg) {
@@ -324,16 +320,12 @@ void Player_PlaceBlock(Player* player, Sound* sound) {
 		World_SetBlockAndMeta(player->world, player->viewRayCast.x + offset[0], player->viewRayCast.y + offset[1],
 				      player->viewRayCast.z + offset[2], player->quickSelectBar[player->quickSelectBarSlot].block,
 				      player->quickSelectBar[player->quickSelectBarSlot].meta);
-<<<<<<< HEAD
-=======
-		
 		sound->background = false;
 		char *soundfile = "romfs:/assets/sound/entity/player/hit.opus";
 		sound->path[0] = '\0';
 		strncat(sound->path, soundfile, sizeof(sound->path) - 1);
 		//DebugUI_Log("File path for player sound %s", sound->path);
 		playopus(sound);
->>>>>>> 78cccca472e6b954d249446dd6bd13192daa3846
 	}
 	if (player->breakPlaceTimeout < 0.f) player->breakPlaceTimeout = PLAYER_PLACE_REPLACE_TIMEOUT;
 }
