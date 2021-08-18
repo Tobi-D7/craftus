@@ -21,7 +21,6 @@
 #include <world/worldgen/SmeaGen.h>
 #include <world/worldgen/SuperFlatGen.h>
 #include <misc/Crash.h>
-#include <misc/Sound.h>
 
 #include <sino/sino.h>
 #include <citro3d.h>
@@ -49,11 +48,8 @@ int main() {
 	printf("romfsinit");
 	romfsInit();
 
-	ndspInit();
-
 	SuperFlatGen flatGen;
 	SmeaGen smeaGen;
-	Sound* sound;
 
 	SuperChunk_InitPools();
 
@@ -80,8 +76,7 @@ int main() {
 
 	DebugUI_Init();
 
-	//sound->path="romfs:/assets/sound/music/1.opus";
-	//playopus();
+	playopus();
 
 	WorldSelect_Init();
 
@@ -224,8 +219,6 @@ int main() {
 	sino_exit();
 
 	WorldSelect_Deinit();
-
-	audioDeinit();
 
 	DebugUI_Deinit();
 

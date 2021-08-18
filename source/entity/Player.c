@@ -81,7 +81,6 @@ void Player_Init(Player* player, World* world) {
 	extern bool showDebugInfo;
 
 	player->autoJumpEnabled = true;
-	playopus();
 }
 
 void Player_Update(Player* player,Damage* dmg) {
@@ -319,7 +318,6 @@ void Player_PlaceBlock(Player* player) {
 		World_SetBlockAndMeta(player->world, player->viewRayCast.x + offset[0], player->viewRayCast.y + offset[1],
 				      player->viewRayCast.z + offset[2], player->quickSelectBar[player->quickSelectBarSlot].block,
 				      player->quickSelectBar[player->quickSelectBarSlot].meta);
-		playopus("romfs:/assets/sound/entity/player/hit.opus");
 	}
 	if (player->breakPlaceTimeout < 0.f) player->breakPlaceTimeout = PLAYER_PLACE_REPLACE_TIMEOUT;
 }
