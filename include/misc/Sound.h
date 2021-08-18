@@ -1,8 +1,11 @@
 #pragma once
+#include <opus/opusfile.h>
 
 typedef struct{
-    char path;
-    int totalsamples;
+	char path[128];
+	bool background;
+	Thread *threaid;
+	OggOpusFile *opusFile;
 }Sound;
 
-void playopus(path);
+void playopus(Sound*);

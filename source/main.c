@@ -26,7 +26,7 @@
 #include <sino/sino.h>
 #include <citro3d.h>
 
-bool showDebugInfo = true;
+bool showDebugInfo = false;
 
 void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) {
 	for (int i = 0; i < CHUNKCACHE_SIZE; i++) {
@@ -42,18 +42,21 @@ void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) 
 
 int main() {
 	GameState gamestate = GameState_SelectWorld;
-	printf("gfxinit");
+	//printf("gfxinit\n");
 	gfxInitDefault();
 
+	// Enable N3DS 804MHz operation, where available
+	osSetSpeedupEnable(true);
+
+	//consoleInit(GFX_TOP, NULL);
 	gfxSet3D(true);
-	printf("romfsinit");
+	//printf("romfsinit\n");
 	romfsInit();
 
 	ndspInit();
 
 	SuperFlatGen flatGen;
 	SmeaGen smeaGen;
-	Sound* sound;
 
 	SuperChunk_InitPools();
 
@@ -68,6 +71,9 @@ int main() {
 	sino_init();
 
 	World* world = (World*)malloc(sizeof(World));
+
+	Sound BackgroundSound;
+	Sound PlayerSound;
 	Player player;
 	PlayerController playerCtrl;
 	Player_Init(&player, world);
@@ -77,11 +83,9 @@ int main() {
 	SmeaGen_Init(&smeaGen, world);
 
 	Renderer_Init(world, &player, &chunkWorker.queue, &gamestate);
-
+	
 	DebugUI_Init();
-
-	//sound->path="romfs:/assets/sound/music/1.opus";
-	//playopus();
+	
 
 	WorldSelect_Init();
 
@@ -95,17 +99,29 @@ int main() {
 	uint64_t lastTime = svcGetSystemTick();
 	float dt = 0.f, timeAccum = 0.f, fpsClock = 0.f;
 	int frameCounter = 0, fps = 0;
-	while (aptMainLoop()) {
+	bool initBackgroundSound = true;
+	while (aptMainLoop()) 
+	{
+		if (initBackgroundSound)
+		{
+			initBackgroundSound = false;
+			BackgroundSound.background = true;
+			char *soundfile = "romfs:/assets/sound/music/1.opus";
+			BackgroundSound.path[0] = '\0';
+			strncat(BackgroundSound.path, soundfile, sizeof(BackgroundSound.path) - 1);
+			playopus(&BackgroundSound);
+		}
+		
 		//DebugUI_Text("%d FPS  Usage: CPU: %5.2f%% GPU: %5.2f%% Buf: %5.2f%% Lin: %d", fps, C3D_GetProcessingTime() * 6.f,
 		//C3D_GetDrawingTime() * 6.f, C3D_GetCmdBufUsage() * 100.f, linearSpaceFree());
-		DebugUI_Text("X: %f, Y: %f, Z: %f", f3_unpack(player.position));
-		DebugUI_Text("HP: %i",player.hp);
+		//DebugUI_Text("X: %f, Y: %f, Z: %f", f3_unpack(player.position));
+		//DebugUI_Text("HP: %i",player.hp);
 		//DebugUI_Text("velocity: %f rndy: %f",player.velocity.y,player.rndy);
 		//DebugUI_Text("Time: %i Cause: %c",dmg->time,dmg->cause);
 		//DebugUI_Text("SX: %f SY: %f SZ: %f",player->spawnx,player->spawny,player->spawnz);
-		DebugUI_Text("Hunger: %i Hungertimer: %i",player.hunger,player.hungertimer);
-		DebugUI_Text("Gamemode: %i",player.gamemode);
-		DebugUI_Text("quickbar %i",player.quickSelectBarSlot);
+		//DebugUI_Text("Hunger: %i Hungertimer: %i",player.hunger,player.hungertimer);
+		//DebugUI_Text("Gamemode: %i",player.gamemode);
+		//DebugUI_Text("quickbar %i",player.quickSelectBarSlot);
 
 		Renderer_Render();
 
@@ -157,7 +173,7 @@ int main() {
 				timeAccum -= 1.f / 20.f;
 			}
 
-			PlayerController_Update(&playerCtrl, inputData, dt);
+			PlayerController_Update(&playerCtrl, &PlayerSound, inputData, dt);
 
 			World_UpdateChunkCache(world, WorldToChunkCoord(FastFloor(player.position.x)),
 					       WorldToChunkCoord(FastFloor(player.position.z)));
@@ -212,20 +228,47 @@ int main() {
 		}
 		Gui_InputData(inputData);
 	}
-
-	if (gamestate == GameState_Playing) releaseWorld(&chunkWorker, &savemgr, world);
-
+	
+	if (gamestate == GameState_Playing)
+	{
+		releaseWorld(&chunkWorker, &savemgr, world);
+	}
+	
 	SaveManager_Deinit(&savemgr);
 
 	SuperChunk_DeinitPools();
 
 	free(world);
 
+	if (BackgroundSound.threaid != NULL)
+	{
+		DoQuit(0);
+		threadJoin(BackgroundSound.threaid, 50000);
+		threadFree(BackgroundSound.threaid);
+		if (BackgroundSound.opusFile)
+		{
+			op_free(BackgroundSound.opusFile);
+		}
+		audioExit(0);
+	}
+	if (PlayerSound.threaid != NULL)
+	{
+		DoQuit(1);
+		threadJoin(PlayerSound.threaid, 50000);
+		threadFree(PlayerSound.threaid);
+		if (PlayerSound.opusFile)
+		{
+			op_free(PlayerSound.opusFile);
+		}
+		audioExit(1);
+	}
+
+	ndspExit();
 	sino_exit();
 
 	WorldSelect_Deinit();
 
-	audioDeinit();
+	
 
 	DebugUI_Deinit();
 
