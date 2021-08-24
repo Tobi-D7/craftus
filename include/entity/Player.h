@@ -48,16 +48,16 @@ typedef struct {
 	int spawnset;
 
 	int gamemode;
-	bool cheats;
-
-	ItemStack inventory[54];
+	bool cheats;	
 
 	int quickSelectBarSlots;
 	int quickSelectBarSlot;
+	int inventorySite;
 	ItemStack quickSelectBar[INVENTORY_QUICKSELECT_MAXSLOTS];
 
 	Raycast_Result viewRayCast;
 	bool blockInSight, blockInActionRange;
+	ItemStack inventory[64];
 } Player;
 
 void Player_Init(Player* player, World* world);
