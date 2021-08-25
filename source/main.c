@@ -25,7 +25,7 @@
 #include <sino/sino.h>
 #include <citro3d.h>
 
-bool showDebugInfo = false;
+bool showDebugInfo = true;
 
 void releaseWorld(ChunkWorker* chunkWorker, SaveManager* savemgr, World* world) {
 	for (int i = 0; i < CHUNKCACHE_SIZE; i++) {
