@@ -20,7 +20,7 @@ static void clickAtStack(ItemStack* stack) {
 
 void Inventory_DrawQuickSelect(int x, int y, ItemStack* stacks, int count, int* selected) {
 	SpriteBatch_BindGuiTexture(GuiTexture_Widgets);
-
+	
 	for (int i = 0; i < count; i++) {
 		SpriteBatch_SetScale(1);  // TODO: muss verbessert werden für Ports
 		int rx = (i * 20 + x + 3) * 2;
@@ -47,29 +47,59 @@ void Inventory_DrawQuickSelect(int x, int y, ItemStack* stacks, int count, int* 
 	SpriteBatch_PushQuad(x + *selected * 20 - 1, y - 1, 14, 24, 24, 0, 22, 24, 24);
 }
 
-void Inventory_Draw(int x, int y, int w, ItemStack* stacks, int count) {
+int Inventory_Draw(int x, int y, int w, ItemStack* stacks, int count, int _site) {
 	SpriteBatch_SetScale(1);
 
 	int headX = x;
 	int headY = y;
+	int site = _site;
 	bool even = false;
+	bool newLine = false;
 
 	const int16_t colors[2] = {SHADER_RGB_DARKEN(SHADER_RGB(20, 20, 21), 9), SHADER_RGB_DARKEN(SHADER_RGB(20, 20, 21), 8)};
-
-	for (int i = 0; i < count; i++) {
-		if (stacks[i].amount > 0) SpriteBatch_PushIcon(stacks[i].block, stacks[i].meta, headX * 2, headY * 2, 10);
-		if (Gui_EnteredCursorInside(headX * 2, headY * 2, 16 * 2, 16 * 2)) clickAtStack(&stacks[i]);
-		SpriteBatch_PushSingleColorQuad(headX * 2, headY * 2, 9, 16 * 2, 16 * 2,
-						sourceStack == &stacks[i] ? SHADER_RGB(20, 5, 2) : colors[even]);
-		even ^= true;
-		headX += 16;
-		if (headX >= w) {
-			headX = x;
-			headY += 17;
-			even = false;
-			SpriteBatch_PushSingleColorQuad(x * 2, (headY - 1) * 2, 10, w * 2, 2, SHADER_RGB(7, 7, 7));
+	if (count > INVENTORY_MAX_PER_SITE)
+	{
+		Gui_Offset(0, 60);
+		if (Gui_Button(0.f, " << ") && site > 1)
+		{
+			site--;
+		}
+		Gui_Offset(270, 60);
+		if (Gui_Button(0.f, " >> ") && site*INVENTORY_MAX_PER_SITE<count)
+		{
+			site++;
+			
+		}
+	}
+	int startindex = (site-1) * INVENTORY_MAX_PER_SITE;
+	for (int i = startindex; i < fmin(site*INVENTORY_MAX_PER_SITE,count); i++)
+	{
+		if (stacks[i].block && stacks[i].amount > 0)  //only draw valid inventory
+		{
+			newLine = false;
+			if ((headX + 16) >= w)
+			{
+				headX = x;
+				headY += 17;
+				newLine = true;
+			}
+			if (stacks[i].amount > 0)
+				SpriteBatch_PushIcon(stacks[i].block, stacks[i].meta, headX * 2, headY * 2, 10);
+			if (Gui_EnteredCursorInside(headX * 2, headY * 2, 16 * 2, 16 * 2))
+				clickAtStack(&stacks[i]);
+			SpriteBatch_PushSingleColorQuad(headX * 2, headY * 2, 9, 16 * 2, 16 * 2,
+				sourceStack == &stacks[i] ? SHADER_RGB(20, 5, 2) : colors[even]);
+			even ^= true;
+			headX += 16;
+			if (newLine)
+			{
+				even = false;
+				//draw separator between "inventory lines"
+				SpriteBatch_PushSingleColorQuad(x * 2, (headY - 1) * 2, 10, (w - 32) * 2, 2, SHADER_RGB(7, 7, 7));
+			}
 		}
 	}
 
 	SpriteBatch_SetScale(2);
+	return site;
 }
