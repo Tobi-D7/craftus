@@ -36,6 +36,7 @@ void Player_Init(Player* player, World* world) {
 
 	player->quickSelectBarSlots = INVENTORY_QUICKSELECT_MAXSLOTS;
 	player->quickSelectBarSlot = 0;
+	player->inventorySite = 1;
 	{
 		int l = 0;
 		player->inventory[l++] = (ItemStack){Block_Stone, 0, 1};
