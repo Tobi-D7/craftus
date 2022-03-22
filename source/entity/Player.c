@@ -86,7 +86,7 @@ void Player_Init(Player* player, World* world) {
 	player->autoJumpEnabled = true;
 }
 
-void Player_Respawn()
+void Player_Respawn(Player* player)
 {
      if (player->difficulty!=4) {
 				if(player->spawnset=0) {
@@ -171,12 +171,12 @@ void Player_Update(Player* player, Sound* sound, Damage* dmg) {
 		//}
 		//Respawning stuff
 		if (player->hp<=0/*&&player->totem==false*/){
-			Player_Respawn();
+			Player_Respawn(player);
 		}
 
 
                 if (player->position.y < -30){
-			Player_Respawn();
+			Player_Respawn(player);
 		}
 	//}
 }
