@@ -86,45 +86,9 @@ void Player_Init(Player* player, World* world) {
 	player->autoJumpEnabled = true;
 }
 
-void Player_Update(Player* player, Sound* sound, Damage* dmg) {
-	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
-	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
-	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
-	//if (player->gamemode!=1){
-		//Fall damage
-		if (player->velocity.y<=-12){
-			player->rndy;
-			player->rndy=round(player->velocity.y);
-			if(World_GetBlock(player->world,player->position.x,player->position.y-1,player->position.z) != Block_Air){
-				player->hp=player->hp+player->rndy;
-				player->rndy=0;
-			}
-		}
-		//Fire damage
-		if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
-			DebugUI_Log("ur burning lol");
-			OvertimeDamage("Fire",10);
-		}
-		//Hunger
-		//if (player->difficulty!=0){
-						// 1000000000 having this here as reference on how long 1 second is
-			svcSleepThread(10000000);
-			player->hungertimer=player->hungertimer+1;
-			if(player->hungertimer==400&&player->hunger!=0){
-				player->hunger=player->hunger-1;
-				player->hungertimer=0;
-			}
-			if (player->hunger==0){
-				svcSleepThread(10000000);
-				if(player->hungertimer==400){
-					player->hp=player->hp-1;
-					player->hungertimer=0;
-				}
-			}
-		//}
-		//Respawning stuff
-		if (player->hp<=0/*&&player->totem==false*/){
-			if (player->difficulty!=4) {
+void Player_Respawn()
+{
+     if (player->difficulty!=4) {
 				if(player->spawnset=0) {
 					if (dmg->cause==NULL){
 						DebugUI_Log("Player died");
@@ -167,6 +131,52 @@ void Player_Update(Player* player, Sound* sound, Damage* dmg) {
 				sprintf(buffer, "sdmc:/craftus_redesigned/saves/%s", worlds.data[selectedWorld].path);
 				delete_folder(buffer);*/
 			}
+}
+
+void Player_Update(Player* player, Sound* sound, Damage* dmg) {
+	player->view = f3_new(-sinf(player->yaw) * cosf(player->pitch), sinf(player->pitch), -cosf(player->yaw) * cosf(player->pitch));
+	player->blockInSight =Raycast_Cast(player->world, f3_new(player->position.x, player->position.y + PLAYER_EYEHEIGHT, player->position.z), player->view,&player->viewRayCast);
+	player->blockInActionRange = player->blockInSight && player->viewRayCast.distSqr < 3.5f * 3.5f * 3.5f;
+	//if (player->gamemode!=1){
+		//Fall damage
+		if (player->velocity.y<=-12){
+			player->rndy;
+			player->rndy=round(player->velocity.y);
+			if(World_GetBlock(player->world,player->position.x,player->position.y-1,player->position.z) != Block_Air){
+				player->hp=player->hp+player->rndy;
+				player->rndy=0;
+			}
+		}
+		//Fire damage
+		if (World_GetBlock(player->world,f3_unpack(player->position)) == Block_Lava/*||World_GetBlock(player->world,f3_unpack(player->position)) == Block_Fire*/){
+			DebugUI_Log("ur burning lol");
+			OvertimeDamage("Fire",10);
+		}
+		//Hunger
+		//if (player->difficulty!=0){
+						// 1000000000 having this here as reference on how long 1 second is
+			svcSleepThread(10000000);
+			player->hungertimer=player->hungertimer+1;
+			if(player->hungertimer==400&&player->hunger!=0){
+				player->hunger=player->hunger-1;
+				player->hungertimer=0;
+			}
+			if (player->hunger==0){
+				svcSleepThread(10000000);
+				if(player->hungertimer==400){
+					player->hp=player->hp-1;
+					player->hungertimer=0;
+				}
+			}
+		//}
+		//Respawning stuff
+		if (player->hp<=0/*&&player->totem==false*/){
+			Player_Respawn();
+		}
+
+
+                if (player->position.y < -30){
+			Player_Respawn();
 		}
 	//}
 }
