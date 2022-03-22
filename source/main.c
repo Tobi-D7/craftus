@@ -251,7 +251,7 @@ int main() {
 		{
 			op_free(BackgroundSound.opusFile);
 		}
-		audioExit(0);
+		//audioExit(0);
 	}
 	if (PlayerSound.threaid != NULL)
 	{
@@ -262,7 +262,7 @@ int main() {
 		{
 			op_free(PlayerSound.opusFile);
 		}
-		audioExit(1);
+		//audioExit(1);
 	}
 
 	ndspExit();
