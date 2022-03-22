@@ -20,6 +20,7 @@
 #include <world/savegame/SuperChunk.h>
 #include <world/worldgen/SmeaGen.h>
 #include <world/worldgen/SuperFlatGen.h>
+#include <world/worldgen/FlatBedrockGen.h>
 #include <misc/Crash.h>
 
 #include <sino/sino.h>
@@ -54,6 +55,7 @@ int main() {
 
 	SuperFlatGen flatGen;
 	SmeaGen smeaGen;
+	FlatBedrockGen bdgen;
 
 	SuperChunk_InitPools();
 
@@ -63,6 +65,7 @@ int main() {
 	ChunkWorker_Init(&chunkWorker);
 	ChunkWorker_AddHandler(&chunkWorker, WorkerItemType_PolyGen, (WorkerFuncObj){&PolyGen_GeneratePolygons, NULL, true});
 	ChunkWorker_AddHandler(&chunkWorker, WorkerItemType_BaseGen, (WorkerFuncObj){&SuperFlatGen_Generate, &flatGen, true});
+	ChunkWorker_AddHandler(&chunkWorker, WorkerItemType_BaseGen, (WorkerFuncObj){&FlatBedrockGen_Generate, &bdgen, true});
 	ChunkWorker_AddHandler(&chunkWorker, WorkerItemType_BaseGen, (WorkerFuncObj){&SmeaGen_Generate, &smeaGen, true});
 
 	sino_init();
@@ -77,6 +80,7 @@ int main() {
 	PlayerController_Init(&playerCtrl, &player);
 
 	SuperFlatGen_Init(&flatGen, world);
+	FlatBedrockGen_Init(&bdgen, world);
 	SmeaGen_Init(&smeaGen, world);
 
 	Renderer_Init(world, &player, &chunkWorker.queue, &gamestate);
@@ -188,6 +192,8 @@ int main() {
 							     world->genSettings.type == WorldGen_SuperFlat);
 				ChunkWorker_SetHandlerActive(&chunkWorker, WorkerItemType_BaseGen, &smeaGen,
 							     world->genSettings.type == WorldGen_Smea);
+				ChunkWorker_SetHandlerActive(&chunkWorker, WorkerItemType_BaseGen, &bdgen,
+							     world->genSettings.type == WorldGen_FlatBedrock);
 
 				world->cacheTranslationX = WorldToChunkCoord(FastFloor(player.position.x));
 				world->cacheTranslationZ = WorldToChunkCoord(FastFloor(player.position.z));
