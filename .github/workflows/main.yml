@@ -43,6 +43,7 @@ jobs:
         id: build
         run: |
           make
+          make make_cia
           mkdir -p ~/artifacts
           cp craftus.3dsx ~/artifacts
           cp craftus.cia ~/artifacts
