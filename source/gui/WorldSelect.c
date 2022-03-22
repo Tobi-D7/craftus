@@ -116,7 +116,7 @@ static gamemode gamemode1=Gamemode_Survival;
 
 static char* gamemodestr[]={"Survival","Creative","Adventure","Spectator"};
 
-static char* worldGenTypesStr[] = {"Smea", "Superflat", FlatBedrock};
+static char* worldGenTypesStr[] = {"Smea", "Superflat", "FlatBedrock"};
 
 static MenuState menustate = MenuState_SelectWorld;
 
