@@ -33,8 +33,8 @@ DATA		:=	data
 INCLUDES	:=	dependencies include
 ROMFS		:=	romfs
 
-APP_AUTHOR	:= Silentstorm
-APP_TITLE	:= Craftus
+APP_AUTHOR	:= Silentstorm, TobiD7
+APP_TITLE	:= craftus
 APP_DESCRIPTION := Minecraft clone
 BANNER_AUDIO := romfs/theme.wav
 ICON		:=	icon/craftus.png
