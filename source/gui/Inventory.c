@@ -35,7 +35,7 @@ void Inventory_DrawQuickSelect(int x, int y, ItemStack* stacks, int count, int* 
 			SpriteBatch_PushSingleColorQuad(rx / 2 - 2, ry / 2 - 2, 9, 18, 18, SHADER_RGB(20, 5, 2));
 			SpriteBatch_BindGuiTexture(GuiTexture_Widgets);
 		}
-		if (i < count - 2) {
+		if (i < count) {
 			SpriteBatch_PushQuad(i * 20 + 21 + x, y, 10, 20, 22, 21, 0, 20, 22);
 		}
 	}
