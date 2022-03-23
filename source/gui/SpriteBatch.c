@@ -52,6 +52,8 @@ void SpriteBatch_Init(int projUniform_) {
 	C3D_TexLoadImage(&whiteTex, data, GPU_TEXFACE_2D, 0);
 
 	Texture_Load(&menuBackgroundTex, "romfs:/assets/textures/gui/options_background.png");
+        Texture_Load(&iconsTex, "romfs:/assets/textures/gui/icons.png");
+
 
 	Mtx_Identity(&iconModelMtx);
 	Mtx_RotateY(&iconModelMtx, M_PI / 4.f, false);
