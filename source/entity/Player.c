@@ -105,6 +105,7 @@ void Player_Respawn(Player* player, Damage* dmg)
 					bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
 					player->position.y=shouldOffset ? spawnY + 1 : spawnY;
 					player->position.z=0.0;
+                                        player->gamemode=0;
 				} 
 				if (player->spawnset=1){
 					if (dmg->cause==NULL){
@@ -121,6 +122,7 @@ void Player_Respawn(Player* player, Damage* dmg)
 					bool shouldOffset = world->genSettings.type != WorldGen_SuperFlat;
 					player->position.y=shouldOffset ? spawnY + 1 : spawnY;
 					player->position.z=player->spawnz;
+                                        player->gamemode=0;
 				}
 				player->hp=20;
 				player->hunger=20;
