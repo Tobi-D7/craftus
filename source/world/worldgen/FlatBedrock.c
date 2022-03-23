@@ -5,7 +5,7 @@
 void FlatBedrockGen_Init(FlatBedrockGen* gen, World* world) {}
 
 void FlatBedrockGen_Generate(WorkQueue* queue, WorkerItem item, void* this) {
-	for (int y = 0; y < 17; y++) {
+	for (int y = 0; y < 5; y++) {
 		Block block = Block_Air;
 		switch (y) {  // TODO: Mit einem Lookup Table ersetzen, Superflach Gen konfigurierbar machen
 			case 0:
